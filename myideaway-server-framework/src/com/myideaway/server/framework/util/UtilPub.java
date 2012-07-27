@@ -13,19 +13,19 @@ import java.util.Date;
  * @author charles.chen on 2012-7-16
  **/
 public class UtilPub {
-	public static boolean isStrEmpty(String str) {
+	public static boolean strIsEmpty(String str) {
 		return "".equals(str) || null == str;
 	}
 
-	public static boolean isStrNotEmpty(String str) {
+	public static boolean strIsNotEmpty(String str) {
 		return !"".equals(str) && null != str;
 	}
 
-	public static boolean isCollectionEmpty(Collection<?> collection) {
+	public static boolean collectionIsEmpty(Collection<?> collection) {
 		return null == collection || collection.size() == 0;
 	}
 
-	public static boolean isCollectionNotEmpty(Collection<?> collection) {
+	public static boolean collectionIsNotEmpty(Collection<?> collection) {
 		return null != collection && collection.size() > 0;
 	}
 

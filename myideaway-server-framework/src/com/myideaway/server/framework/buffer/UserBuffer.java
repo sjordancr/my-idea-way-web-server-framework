@@ -43,7 +43,7 @@ public class UserBuffer {
 
 	private void initBuffer() {
 		List<EntityUser> userList = dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserList");
-		if(UtilPub.isCollectionNotEmpty(userList)){
+		if(UtilPub.collectionIsNotEmpty(userList)){
 			for(EntityUser user : userList){
 				userListFromBuffer.put(user.getEntityId(), user);
 			}
