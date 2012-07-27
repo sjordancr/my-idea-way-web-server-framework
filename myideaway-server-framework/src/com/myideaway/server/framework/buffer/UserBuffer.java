@@ -1,5 +1,6 @@
 package com.myideaway.server.framework.buffer;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -7,6 +8,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.myideaway.server.framework.dao.IBaseEntityDao;
 import com.myideaway.server.framework.entities.EntityUser;
+import com.myideaway.server.framework.util.UtilPub;
 
 /**
  * <p>
@@ -40,10 +42,11 @@ public class UserBuffer {
 	}
 
 	private void initBuffer() {
-		EntityUser user;
-		for (int i = 0; i < 10; i++) {
-			user = new EntityUser(Integer.toString(i));
-			userListFromBuffer.put(Integer.toString(i), user);
+		List<EntityUser> userList = dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserList");
+		if(UtilPub.isCollectionNotEmpty(userList)){
+			for(EntityUser user : userList){
+				userListFromBuffer.put(user.getEntityId(), user);
+			}
 		}
 	}
 

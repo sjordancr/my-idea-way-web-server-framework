@@ -26,8 +26,9 @@ import com.myideaway.server.framework.util.UtilPub;
 public class EntityUserService {
 	@Autowired
 	private IBaseEntityDao<EntityUser, String> dao;
-//	@Autowired
-//	private JdbcTemplate jdbcTemplate;
+
+	// @Autowired
+	// private JdbcTemplate jdbcTemplate;
 
 	public void addUser(EntityUser user) {
 		user.setEntityId(UUIDGenerator.generate());
@@ -47,7 +48,11 @@ public class EntityUserService {
 		Map<String, Integer> parameters = new HashMap<String, Integer>();
 		parameters.put(Pager.RECORD_LIMIT, limit);
 		parameters.put(Pager.RECORD_OFFSET, offset);
-		return dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserList", parameters);
+		return dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserListPager", parameters);
+	}
+
+	public List<EntityUser> getUserList() {
+		return dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserList");
 	}
 
 	public int getUserCount() {
