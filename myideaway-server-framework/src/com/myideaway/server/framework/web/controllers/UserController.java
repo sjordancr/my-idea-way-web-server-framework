@@ -25,7 +25,7 @@ public class UserController {
 	private EntityUserService service;
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
-	public String addContact(@ModelAttribute("user")EntityUser user, BindingResult result) {
+	public String addUser(@ModelAttribute("user")EntityUser user, BindingResult result) {
 		service.addUser(user);
 		return "redirect:editUser.action";
 	}
