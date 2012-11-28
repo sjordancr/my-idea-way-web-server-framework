@@ -14,7 +14,7 @@
 		<param-value>classpath:spring-config.xml</param-value>
 	</context-param>
 	<listener>
-		<listener-class>com.myideaway.server.framework.context.ContextLoaderListener</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!-- spring context end -->
 	

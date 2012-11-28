@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myideaway.server.framework.dao.mapper.PepleMappger">
+	<select id="queryPepleByNameAndPassword" resultType="com.myideaway.server.framework.entities.Peple" parameterType ="com.myideaway.server.framework.entities.Peple">
+		select * from t_peple_info where name = #{name} and password = #{password}
+	</select>
+	<select id="queryPepleById" resultType="java.util.HashMap" parameterType="long">
+		select a.*,b.name as connect_peple_name from t_peple_info a left join t_peple_info b 
+			on a.connect_peple = b.t_peple_info_id 
+		 where a.t_peple_info_id = #{id}
+	</select>
+	<select id="checkPepleCount" resultType="java.lang.Long" parameterType="java.lang.String">
+			select i.t_peple_info_id from t_peple_info i where i.name = #{connect_peple}
+			union
+			select ii.t_peple_info_id from t_peple_info ii where ii.email = #{connect_peple}
+			union
+			select iii.t_peple_info_id from t_peple_info iii where iii.t_peple_info_id = #{connect_peple}
+	</select>
+	<select id="queryPepleChildrenById" resultType="java.lang.Integer" parameterType="java.lang.Long">
+			select count(1) from t_peple_relation_tree where pid = #{id}
+	</select>
+</mapper>

@@ -17,7 +17,9 @@
            				http://www.springframework.org/schema/task 
            				http://www.springframework.org/schema/task/spring-task-3.2.xsd
            				http://www.directwebremoting.org/schema/spring-dwr  
- 						http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd">
+ 						http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd 
+ 						http://www.springframework.org/schema/mvc 
+ 						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd " >
  						
 	<!-- jdbc properties load start -->
 	<bean id="propertyConfigurer"
@@ -48,12 +50,13 @@
 	<!-- mybatis sqlSessionFactory define -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:sqlMapConfig.xml" />
+		<property name="typeAliasesPackage" value="com.myideaway.server.framework.entities" />
 	</bean>
 	<!-- project dao define -->
 	<bean id="baseDaoImpl" class="com.myideaway.server.framework.dao.impl.BaseEntityDaoImpl">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
+	
 	<!-- jdbctemplate define -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
@@ -66,6 +69,7 @@
 	<task:annotation-driven />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<aop:config proxy-target-class="true" />
+
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="save*" propagation="REQUIRED" />
@@ -80,6 +84,7 @@
 			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
+	
 	<aop:config>
 		<aop:pointcut
 			expression="execution(public * com.myideaway.server.framework.service..*.*(..))"
@@ -90,6 +95,10 @@
 	<!-- about project datadase end -->
 	<context:annotation-config />
 	<context:component-scan base-package="com.myideaway.server.framework" />
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.myideaway.server.framework.dao.mapper" />
+	</bean>
 	
 	<!-- project buffer define -->
 	<bean id="userBuffer" class="com.myideaway.server.framework.buffer.UserBuffer">
@@ -103,4 +112,5 @@
 	<dwr:annotation-scan scanRemoteProxy="true" base-package="com.myideaway.server.framework.web.ajax" />
     <dwr:controller id="dwrController" debug="true" />
     <!-- about spring-dwr define end -->
+     
 </beans>

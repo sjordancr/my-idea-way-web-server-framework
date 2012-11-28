@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.myideaway.server.framework.dao.IBaseEntityDao;
+import com.myideaway.server.framework.dao.mapper.UserMapper;
 import com.myideaway.server.framework.entities.EntityUser;
 import com.myideaway.server.framework.util.Pager;
 import com.myideaway.server.framework.util.UUIDGenerator;
@@ -26,6 +26,9 @@ import com.myideaway.server.framework.util.UtilPub;
 public class EntityUserService {
 	@Autowired
 	private IBaseEntityDao<EntityUser, String> dao;
+	
+	@Autowired
+	private UserMapper userMapper;
 
 	// @Autowired
 	// private JdbcTemplate jdbcTemplate;
@@ -52,7 +55,8 @@ public class EntityUserService {
 	}
 
 	public List<EntityUser> getUserList() {
-		return dao.getEntities(UtilPub.getEntityStatementNamePath(EntityUser.class) + "getUserList");
+		List<EntityUser> list = userMapper.getUserList();
+		return list;
 	}
 
 	public int getUserCount() {
