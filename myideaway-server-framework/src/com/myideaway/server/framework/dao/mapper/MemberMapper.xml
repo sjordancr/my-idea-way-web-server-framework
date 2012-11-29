@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myideaway.server.framework.dao.mapper.MemberMapper">
+	<insert id="addMemberInfo" parameterType="com.myideaway.server.framework.entities.MemberInfo">
+		insert into t_member(referrer, receiver, is_order_store, login_name, real_name,
+		card_id, account_bank, bank_card_code, bank_province, bank_city,
+		phone, detail_addres, is_check_cash, store_name, store_agent_address,
+		email, remit_account, remit_account_bank, remit_datetime, remit_peple,
+		remit_money)
+		values (#{referrer},#{receiver},#{is_order_store},#{login_name},#{real_name},
+		#{card_id},#{account_bank},#{bank_card_code},#{bank_province},#{bank_city},
+		#{phone},#{detail_addres},0,#{store_name},#{store_agent_address},
+		#{email},#{remit_account},#{remit_account_bank},#{remit_datetime},#{remit_peple},
+		#{remit_money})
+	</insert>
+	<select id="selectMemberList" resultType="com.myideaway.server.framework.entities.MemberInfo" parameterType="java.util.HashMap">
+		select * from t_member limit #{onePageCount} offset #{start}
+	</select>
+	<select id="selectMemberListCount" resultType="java.lang.Long" parameterType="com.myideaway.server.framework.entities.MemberInfo">
+		select count(1) from t_member
+	</select>
+</mapper>

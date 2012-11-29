@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form id="validateForm">
 <table>
 	<tr>
 		<td></td>
@@ -33,6 +34,7 @@
 	</tr>
 	<input type="button" id="add" value="注册">
 </table>
+</form>
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -49,7 +51,7 @@ $(document).ready(function(){
 			},
 			dataType:"json"
 		});
-	})
+	});
 });
 </script>
 </html>
