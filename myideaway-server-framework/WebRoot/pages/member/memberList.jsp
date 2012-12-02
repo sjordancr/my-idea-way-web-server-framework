@@ -10,21 +10,21 @@
 <form action="../../member/list.action" method="post">
 <table >
 	<th >
-		<td>a</td>
-		<td>a</td>
-		<td>a</td>
-		<td>a</td>
-		<td>a</td>
-		<td>a</td>
+		<td>会员姓名</td>
+		<td>会员登录名</td>
+		<td>身份证号</td>
+		<td>联系电话</td>
+		<td>电子邮件</td>
+		<td>是否商务店</td>
 	</th>
 	<c:forEach items="${list}" var="mem">
 	<tr >
-		<td>${mem.referrer}</td>
-		<td>${mem.receiver}</td>
-		<td>${mem.referrer}</td>
-		<td>${mem.referrer}</td>
-		<td>${mem.referrer}</td>
-		<td>${mem.referrer}</td>
+		<td>${mem.real_name}</td>
+		<td>${mem.login_name}</td>
+		<td>${mem.card_id}</td>
+		<td>${mem.phone}</td>
+		<td>${mem.email}</td>
+		<td>${mem.is_order_store_desc}</td>
 	</tr>
 	</c:forEach>
 </table>

@@ -13,10 +13,40 @@
 		#{email},#{remit_account},#{remit_account_bank},#{remit_datetime},#{remit_peple},
 		#{remit_money})
 	</insert>
-	<select id="selectMemberList" resultType="com.myideaway.server.framework.entities.MemberInfo" parameterType="java.util.HashMap">
-		select * from t_member limit #{onePageCount} offset #{start}
+	<select id="selectMemberList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select m.*,case m.is_order_store when 0 then '否' when 1 then '是' else '' end as is_order_store_desc from t_member m limit #{onePageCount} offset #{start}
 	</select>
 	<select id="selectMemberListCount" resultType="java.lang.Long" parameterType="com.myideaway.server.framework.entities.MemberInfo">
 		select count(1) from t_member
+	</select>
+	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" >
+		select v1.id,count(1) as own_member from t_member_tree v1 
+			left JOIN t_member_tree v2 on v1.id = v2.pid 
+			LEFT JOIN t_member_tree v3 on v2.id = v3.pid
+			LEFT JOIN t_member_tree v4 on v3.id = v4.pid
+			left JOIN t_member_tree v5 on v4.id = v5.pid
+			where v1.isChecked = 0
+			GROUP BY v1.id HAVING own_member = 16
+	</select>
+	<select id="checkReferrer" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select case count(1) when 1 then 0 else 1 end as num from t_member where login_name = #{referrer}
+	</select>
+	<select id="checkReceiver" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select case count(1) when 1 then 0 else 1 end as num from t_member where login_name = #{receiver}
+	</select>
+	<select id="checkLoginName" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from t_member where login_name = #{login_name}
+	</select>
+	<select id="checkCardId" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from t_member where card_id = #{card_id}
+	</select>
+	<select id="checkEmail" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from t_member where email = #{email}
+	</select>
+	<select id="checkBankCardCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(1) from t_member where bank_card_code = #{bank_card_code}
+	</select>
+	<select id="checkReferrerCanUse" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select case count(1) when 0 then 0 when 1 then 0 when 2 THEN 1 END as num  from t_memeber where referrer = #{referrer}
 	</select>
 </mapper>

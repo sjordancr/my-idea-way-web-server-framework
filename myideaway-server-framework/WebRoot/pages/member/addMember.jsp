@@ -14,7 +14,7 @@
 		<td>接收人</td>
 		<td><input id="receiver" name="receiver"></td>
 		<td>接收位置</td>
-		<td><input id=""></td>
+		<td><input type="radio" name="is_order_store" value="0" checked="checked">左边</input><input type="radio" name="is_order_store" value="0">右边</input></td>
 	</tr>
 	<tr>
 		<td>登陆名</td>
@@ -77,6 +77,7 @@
 </form>
 </body>
 <script type="text/javascript" >
+var unique;
 $(document).ready(function(){
 	$("#validateForm").validate({
 		rules:{
@@ -129,11 +130,65 @@ $(document).ready(function(){
 	
 	$("#addinfo").click(function(){
 		var success = $("#validateForm").valid();
-		if(success){
+		exist("referrer",$("#referrer").val(),'输入的推荐人不存在');
+		if(!unique) return;
+		checkReferrer();
+		if(!unique) return;
+		exist("login_name",$("#login_name").val(),'输入的登陆名已存在');
+		if(!unique) return;
+		exist("card_id",$("#card_id").val(),'银行卡号已存在');
+		if(!unique) return;
+		exist("email",$("#email").val(),'电子邮件地址已存在');
+		if(!unique) return;
+		exist("bank_card_code",$("#bank_card_code").val(),'开户银行卡号已存在');
+		if(!unique) return;
+		if(success && unique){
 			$("#validateForm").submit();
 		}
 		
 	})
+	
+	function exist(name, value,message){
+		$.ajax({
+			url:"../../member/checkUnique.action",
+			type: 'post',
+			async:false,
+			data:{
+				name:name,
+				value:value
+			},
+			success:function(data){
+				unique = data.unique;
+				if(!unique){
+					$("#"+name).parent().append("<label class=\"error\" id=\"exits"+name+"\" generated=\"true\">"+message+"</label>");
+				}
+				else{
+					$("#.exist"+name).remove();
+				}
+			},
+			dataType:"json"
+	    }
+		);
+	}
+	
+	function checkReferrer(){
+		$.ajax({
+			url:"../../member/checkReferrer.action",
+			type: 'post',
+			async:false,
+			data:{
+				value:$("#referrer").val()
+			},
+			success:function(data){
+				unique = data.canUse;
+				if( !unique){
+					
+				}
+			},
+			dataType:"json"
+	    });
+	}
+	
 })
 </script>
 </html>

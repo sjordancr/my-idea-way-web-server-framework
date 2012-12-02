@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class MemberInfo {
 	
-	private long id;
+	long id;
 	private String referrer;
 	String receiver;
 	int is_order_store;
