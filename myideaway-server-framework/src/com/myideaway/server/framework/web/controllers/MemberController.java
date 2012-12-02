@@ -22,6 +22,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@RequestMapping("/addPage")
+	public String addPage(){
+		return "member/addMember";
+	}
+	
 	@RequestMapping("/add")
 	public String addMember(@ModelAttribute MemberInfo memberInfo){
 		try {
@@ -56,6 +61,28 @@ public class MemberController {
 		HashMap<String, Boolean> result = new HashMap<String, Boolean>();
 		result.put("canUse", memberService.checkReferrerCanUse(value));
 		return result;
+	}
+	
+	@RequestMapping("/statistics")
+	public String statistics(@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.statistics(new HashMap<String, Object>(), page));
+		return "member/statisticsMember";
+	}
+	
+	@RequestMapping("/canReferrer")
+	public String canReferrer(@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.selectCanReferrer(new HashMap<String, Object>(), page));
+		return "member/referrer";
 	}
 
 }

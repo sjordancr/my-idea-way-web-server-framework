@@ -1,6 +1,5 @@
 package com.myideaway.server.framework.entities;
 
-import java.util.Date;
 
 public class MemberInfo {
 	
@@ -26,6 +25,7 @@ public class MemberInfo {
 	String remit_datetime;
 	String remit_peple;
 	float remit_money;
+	long referrerId;
 	public long getId() {
 		return id;
 	}
@@ -157,5 +157,11 @@ public class MemberInfo {
 	}
 	public void setRemit_money(float remit_money) {
 		this.remit_money = remit_money;
+	}
+	public long getReferrerId() {
+		return referrerId;
+	}
+	public void setReferrerId(long referrerId) {
+		this.referrerId = referrerId;
 	}
 }

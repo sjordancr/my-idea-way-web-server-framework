@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myideaway.server.framework.dao.mapper.MemberMapper">
-	<insert id="addMemberInfo" parameterType="com.myideaway.server.framework.entities.MemberInfo">
+	<insert id="addMemberInfo" parameterType="com.myideaway.server.framework.entities.MemberInfo" useGeneratedKeys="true" keyProperty="id">
 		insert into t_member(referrer, receiver, is_order_store, login_name, real_name,
 		card_id, account_bank, bank_card_code, bank_province, bank_city,
 		phone, detail_addres, is_check_cash, store_name, store_agent_address,
@@ -19,14 +19,31 @@
 	<select id="selectMemberListCount" resultType="java.lang.Long" parameterType="com.myideaway.server.framework.entities.MemberInfo">
 		select count(1) from t_member
 	</select>
-	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" >
+	<insert id="addMemberTree" parameterType="java.util.HashMap">
+		insert into t_member_tree (id,pid,name,isChecked)
+		values(#{id},#{pid},#{name},0)
+	</insert>
+	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select m.* from t_member m INNER JOIN (
+				select v1.id,count(1) as own_member from t_member_tree v1 
+				left JOIN t_member_tree v2 on v1.id = v2.pid 
+				LEFT JOIN t_member_tree v3 on v2.id = v3.pid
+				LEFT JOIN t_member_tree v4 on v3.id = v4.pid
+				left JOIN t_member_tree v5 on v4.id = v5.pid
+				where v1.isChecked = 0
+				GROUP BY v1.id HAVING own_member = 16
+			) v on m.id = v.id 
+			limit #{onePageCount} offset #{start}
+	</select>
+	<select id="iNeedMoneyMoneyCount" resultType="java.lang.Long">
+		select count(1) from (
 		select v1.id,count(1) as own_member from t_member_tree v1 
-			left JOIN t_member_tree v2 on v1.id = v2.pid 
-			LEFT JOIN t_member_tree v3 on v2.id = v3.pid
-			LEFT JOIN t_member_tree v4 on v3.id = v4.pid
-			left JOIN t_member_tree v5 on v4.id = v5.pid
-			where v1.isChecked = 0
-			GROUP BY v1.id HAVING own_member = 16
+				left JOIN t_member_tree v2 on v1.id = v2.pid 
+				LEFT JOIN t_member_tree v3 on v2.id = v3.pid
+				LEFT JOIN t_member_tree v4 on v3.id = v4.pid
+				left JOIN t_member_tree v5 on v4.id = v5.pid
+				where v1.isChecked = 0
+				GROUP BY v1.id HAVING own_member = 16) v
 	</select>
 	<select id="checkReferrer" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select case count(1) when 1 then 0 else 1 end as num from t_member where login_name = #{referrer}
@@ -48,5 +65,25 @@
 	</select>
 	<select id="checkReferrerCanUse" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select case count(1) when 0 then 0 when 1 then 0 when 2 THEN 1 END as num  from t_memeber where referrer = #{referrer}
+	</select>
+	<select id="selectCanReferrer" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		<![CDATA[
+		select m.* from t_member m INNER JOIN (
+				select v1.id,count(1) as own_member from t_member_tree v1 
+				left JOIN t_member_tree v2 on v1.id = v2.pid 
+				where v1.isChecked = 0
+				GROUP BY v1.id HAVING own_member < 2
+			) v on m.id = v.id
+		]]>
+	</select>
+	<select id="selectCanReferrerCount" resultType="java.lang.Long" parameterType="java.util.HashMap">
+		<![CDATA[
+		select count(1) from (
+				select v1.id,count(1) as own_member from t_member_tree v1 
+				left JOIN t_member_tree v2 on v1.id = v2.pid 
+				where v1.isChecked = 0
+				GROUP BY v1.id HAVING own_member < 2
+			) v
+		]]>
 	</select>
 </mapper>

@@ -6,11 +6,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form id="validateForm" method="post" action="../../member/add.action">
+<form id="validateForm" method="post" action="../member/add.action">
 <table class="t1d">
 	<tr class="a1">
 		<td>推荐人</td>
-		<td><input id="referrer" name="referrer"></td>
+		<input type="hidden" id="referrerId" name="referrerId">
+		<td><input id="referrer" name="referrer"  readonly="readonly" onclick="selectReferrer()"></td>
 		<td>接收人</td>
 		<td><input id="receiver" name="receiver"></td>
 		<td>接收位置</td>
@@ -132,8 +133,6 @@ $(document).ready(function(){
 		var success = $("#validateForm").valid();
 		exist("referrer",$("#referrer").val(),'输入的推荐人不存在');
 		if(!unique) return;
-		checkReferrer();
-		if(!unique) return;
 		exist("login_name",$("#login_name").val(),'输入的登陆名已存在');
 		if(!unique) return;
 		exist("card_id",$("#card_id").val(),'银行卡号已存在');
@@ -146,11 +145,11 @@ $(document).ready(function(){
 			$("#validateForm").submit();
 		}
 		
-	})
+	});
 	
 	function exist(name, value,message){
 		$.ajax({
-			url:"../../member/checkUnique.action",
+			url:"../member/checkUnique.action",
 			type: 'post',
 			async:false,
 			data:{
@@ -169,11 +168,11 @@ $(document).ready(function(){
 			dataType:"json"
 	    }
 		);
-	}
+	};
 	
 	function checkReferrer(){
 		$.ajax({
-			url:"../../member/checkReferrer.action",
+			url:"../member/checkReferrer.action",
 			type: 'post',
 			async:false,
 			data:{
@@ -181,14 +180,24 @@ $(document).ready(function(){
 			},
 			success:function(data){
 				unique = data.canUse;
-				if( !unique){
-					
+				if(!unique){
+					$("#"+name).parent().append("<label class=\"error\" id=\"exits"+name+"\" generated=\"true\">推荐人已推荐了2名会员不能作为推荐人</label>");
 				}
+				else{
+					$("#.exist"+name).remove();
+				}
+				
 			},
 			dataType:"json"
 	    });
-	}
+	};
 	
 })
+function selectReferrer()
+{
+	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
+	$("#referrerId").val(r.id);
+	$("#referrer").val(r.name);
+}
 </script>
 </html>

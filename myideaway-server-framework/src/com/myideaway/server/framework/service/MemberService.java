@@ -20,6 +20,11 @@ public class MemberService {
 	
 	public void add(MemberInfo member){
 		memberMapper.addMemberInfo(member);
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("id", member.getId());
+		param.put("pid", member.getReferrerId());
+		param.put("name", member.getLogin_name());
+		memberMapper.addMemberTree(param);
 	}
 	
 	public List<HashMap<String, Object>> list(MemberInfo memberInfo,Page page){
@@ -57,6 +62,26 @@ public class MemberService {
 		count = memberMapper.checkReferrerCanUse((String) value);
 		if(count == 0) return true;
 		return false;
+	}
+	
+	public List<HashMap<String, Object>> statistics(HashMap<String, Object> param,Page page){
+		page.setCount(memberMapper.iNeedMoneyMoneyCount());
+		PageUtil.makePage(page);
+		
+		param.put("start", page.getStart());
+		param.put("onePageCount", page.getOnePageCount());
+		
+		return memberMapper.iNeedMoneyMoney(param);
+	}
+	
+	public List<HashMap<String, Object>> selectCanReferrer(HashMap<String, Object> param,Page page){
+		page.setCount(memberMapper.selectCanReferrerCount());
+		PageUtil.makePage(page);
+		
+		param.put("start", page.getStart());
+		param.put("onePageCount", page.getOnePageCount());
+		
+		return memberMapper.selectCanReferrer(param);
 	}
 
 }

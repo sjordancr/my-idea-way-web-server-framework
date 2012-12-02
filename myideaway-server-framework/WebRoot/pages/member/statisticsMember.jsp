@@ -6,11 +6,7 @@
 <jsp:include page="../common/base.jsp"></jsp:include>
 </head>
 <body>
-<div>
-<form id="myform" action="../../member/list.action" method="post">
-<table>
-<tr><td><a href="addPage.action">新增</a></td></tr>
-</table>
+<form id="myform" action="../member/canReferrer.action" method="post">
 <table >
 	<th >
 		<td>会员姓名</td>
@@ -18,7 +14,6 @@
 		<td>身份证号</td>
 		<td>联系电话</td>
 		<td>电子邮件</td>
-		<td>是否商务店</td>
 	</th>
 	<c:forEach items="${list}" var="mem">
 	<tr >
@@ -27,15 +22,12 @@
 		<td>${mem.card_id}</td>
 		<td>${mem.phone}</td>
 		<td>${mem.email}</td>
-		<td>${mem.is_order_store_desc}</td>
 	</tr>
 	</c:forEach>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
 </form>
-
 <div id="pager"></div>
-</div>
 </body>
 <script type="text/javascript">
 $(document).ready(function() {

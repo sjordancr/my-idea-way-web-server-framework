@@ -14,9 +14,7 @@ public class PageUtil {
 			}
 		}
 		long currentPage = page.getCurrentPage();
-		if(currentPage == count){
-			page.setOnePageCount((int)count/pageCount);
-		}
+		
 		page.setStart(currentPage == 1? 0:(currentPage - 1 )*pageCount -1);
 
 		return page;
