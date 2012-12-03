@@ -92,3 +92,22 @@ CREATE TABLE `t_peple_info` (
 -- ----------------------------
 INSERT INTO `t_peple_info` VALUES ('1', '王伟鹏', '0', '100.00', '0', '100.20', null, '111111');
 INSERT INTO `t_peple_info` VALUES ('2', 'aaa', '1', '0.00', '0', '100.00', null, '111111');
+
+DROP TABLE IF EXISTS `t_peple_info`;
+CREATE TABLE `t_peple_info` (
+  `t_peple_info_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL,
+  `connect_peple` bigint(20) NOT NULL,
+  `own_money` decimal(10,2) NOT NULL,
+  `own_peple` tinyint(4) NOT NULL,
+  `pay_money` decimal(10,2) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`t_peple_info_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_peple_info
+-- ----------------------------
+INSERT INTO `t_peple_info` VALUES ('1', '王伟鹏', '0', '100.00', '0', '100.20', null, '111111');
+INSERT INTO `t_peple_info` VALUES ('2', 'aaa', '1', '0.00', '0', '100.00', null, '111111');
