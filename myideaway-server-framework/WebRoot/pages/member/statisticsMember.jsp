@@ -7,14 +7,15 @@
 </head>
 <body>
 <form id="myform" action="../member/canReferrer.action" method="post">
-<table >
-	<th >
+<table width="100%">
+	<tr >
 		<td>会员姓名</td>
 		<td>会员登录名</td>
 		<td>身份证号</td>
 		<td>联系电话</td>
 		<td>电子邮件</td>
-	</th>
+		<td>操作</td>
+	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
 		<td>${mem.real_name}</td>
@@ -22,6 +23,7 @@
 		<td>${mem.card_id}</td>
 		<td>${mem.phone}</td>
 		<td>${mem.email}</td>
+		<td><a href="../member/check.action?id=${mem.id}">结算</a></td>
 	</tr>
 	</c:forEach>
 </table>

@@ -73,7 +73,8 @@
 				left JOIN t_member_tree v2 on v1.id = v2.pid 
 				where v1.isChecked = 0
 				GROUP BY v1.id HAVING own_member < 2
-			) v on m.id = v.id
+			) v on m.id = v.id 
+		limit #{onePageCount} offset #{start}
 		]]>
 	</select>
 	<select id="selectCanReferrerCount" resultType="java.lang.Long" parameterType="java.util.HashMap">
@@ -86,4 +87,7 @@
 			) v
 		]]>
 	</select>
+	<update id="checkMember" parameterType="java.lang.Long">
+		update t_member_tree set isChecked = 1 where id = #{id} 
+	</update>
 </mapper>

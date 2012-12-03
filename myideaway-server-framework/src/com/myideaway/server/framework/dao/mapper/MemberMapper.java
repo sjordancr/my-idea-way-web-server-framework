@@ -23,4 +23,5 @@ public interface MemberMapper {
 	public Long iNeedMoneyMoneyCount();
 	public List<HashMap<String, Object>> selectCanReferrer(HashMap<String, Object> param);
 	public Long selectCanReferrerCount();
+	public void checkMember(long id);
 }

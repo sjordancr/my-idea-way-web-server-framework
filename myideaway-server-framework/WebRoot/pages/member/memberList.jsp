@@ -7,19 +7,19 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../../member/list.action" method="post">
-<table>
+<form id="myform" action="../member/list.action" method="post">
+<table >
 <tr><td><a href="addPage.action">新增</a></td></tr>
 </table>
-<table >
-	<th >
+<table width="100%">
+	<tr>
 		<td>会员姓名</td>
 		<td>会员登录名</td>
 		<td>身份证号</td>
 		<td>联系电话</td>
 		<td>电子邮件</td>
 		<td>是否商务店</td>
-	</th>
+	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
 		<td>${mem.real_name}</td>

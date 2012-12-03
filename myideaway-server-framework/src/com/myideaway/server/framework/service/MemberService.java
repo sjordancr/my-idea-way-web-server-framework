@@ -83,5 +83,15 @@ public class MemberService {
 		
 		return memberMapper.selectCanReferrer(param);
 	}
+	
+	public boolean check(long id){
+		try {
+			memberMapper.checkMember(id);
+		} catch (Exception e) {
+			return false;
+		}
+		
+		return true;
+	}
 
 }

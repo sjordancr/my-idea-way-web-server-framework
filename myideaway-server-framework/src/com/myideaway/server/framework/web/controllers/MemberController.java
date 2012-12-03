@@ -84,5 +84,11 @@ public class MemberController {
 		model.addAttribute("list", memberService.selectCanReferrer(new HashMap<String, Object>(), page));
 		return "member/referrer";
 	}
+	
+	@RequestMapping("/check")
+	public String check(@RequestParam long id){
+		memberService.check(id);
+		return "redirect:statistics.action";
+	}
 
 }
