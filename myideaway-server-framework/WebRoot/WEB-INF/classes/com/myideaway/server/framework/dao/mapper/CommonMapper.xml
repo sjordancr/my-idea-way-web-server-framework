@@ -4,4 +4,13 @@
 	<select id="getTree" resultType="java.util.HashMap" parameterType ="java.util.HashMap">
 		select * from t_peple_relation_tree where pid = #{id}
 	</select>
+	<select id="getAllProvince" resultType="java.util.HashMap">
+		select * from province
+	</select>
+	<select id="getCityListByProvince" resultType="java.util.HashMap" parameterType ="java.lang.Long">
+		select * from city where father = #{id}
+	</select>
+	<select id="getAreaListByCity" resultType="java.util.HashMap" parameterType ="java.lang.Long">
+		select * from area where father = #{id}
+	</select>
 </mapper>

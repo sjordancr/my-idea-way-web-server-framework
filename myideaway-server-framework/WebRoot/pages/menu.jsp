@@ -22,7 +22,8 @@
 		};
 	var zNodes = [
 	    {id:1, pId:0, name:'人员信息', url:"${basePath }member/list.action", target:'fun'},
-	    {id:2, pId:0, name:'统计', url:"${basePath }member/statistics.action", target:'fun'}
+	    {id:2, pId:0, name:'会员结算', url:"${basePath }member/statistics.action", target:'fun'},
+	    {id:3, pId:0, name:'商务店提成', url:"${basePath }member/moneyOrderStoreList.action", target:'fun'}
 	];
 	
 	$.fn.zTree.init($("#treeDemo"), setting, zNodes);

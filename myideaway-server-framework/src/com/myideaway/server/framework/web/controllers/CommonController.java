@@ -25,5 +25,22 @@ public class CommonController {
 		param.put("id", id);
 		return commonService.getTree(param);
 	}
-
+	
+	@RequestMapping("/province")
+	@ResponseBody
+	public Object province(){
+		return commonService.provinceList();
+	}
+	
+	@RequestMapping("/cityList")
+	@ResponseBody
+	public Object city(@RequestParam long province){
+		return commonService.cityListByProvince(province);
+	}
+	
+	@RequestMapping("/areaList")
+	@ResponseBody
+	public Object area(@RequestParam long city){
+		return commonService.areaListByCity(city);
+	}
 }

@@ -24,4 +24,13 @@ public interface MemberMapper {
 	public List<HashMap<String, Object>> selectCanReferrer(HashMap<String, Object> param);
 	public Long selectCanReferrerCount();
 	public void checkMember(long id);
+	public List<HashMap<String, Object>> selectStoreList(HashMap<String, Object> param);
+	public Long selectStoreListCount();
+	public MemberInfo selectMemberById(Long id);
+	public void updateMemberMoney(HashMap<String, Object> param);
+	public MemberInfo selectProvinceStore(HashMap<String, Object> param);
+	public MemberInfo selectCityStore(HashMap<String, Object> param);
+	public List<HashMap<String, Object>> selectMoneyStoreList(HashMap<String, Object> param);
+	public Long selectMoneyStoreListCount();
+	public void clearStoreMoney(Long id);
 }

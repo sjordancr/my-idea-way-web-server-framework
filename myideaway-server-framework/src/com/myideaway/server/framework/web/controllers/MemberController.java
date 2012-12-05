@@ -90,5 +90,35 @@ public class MemberController {
 		memberService.check(id);
 		return "redirect:statistics.action";
 	}
-
+	
+	@RequestMapping("/orderStoreList")
+	public String orderStoreList(@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.selectOrderStore(new HashMap<String, Object>(), page));
+		return "member/orderStoreList";
+	}
+	
+	@RequestMapping("/moneyOrderStoreList")
+	public String MoneyOrderStoreList(@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.selectMoneyOrderStore(new HashMap<String, Object>(), page));
+		return "member/statisticsOrderStore";
+	}
+	
+	@RequestMapping("/storeCheck")
+	public String storeCheck(@RequestParam Long id){
+		
+		memberService.clearMoney(id);
+		
+		return "redirect:moneyOrderStoreList.action";
+	}
+	
 }

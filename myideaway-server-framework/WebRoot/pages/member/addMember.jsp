@@ -3,6 +3,7 @@
 <html>
 <head>
 <jsp:include page="../common/base.jsp"></jsp:include>
+<script src="${basePath }scripts/common/calendar.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,66 +13,107 @@
 		<td>推荐人</td>
 		<input type="hidden" id="referrerId" name="referrerId">
 		<td><input id="referrer" name="referrer"  readonly="readonly" onclick="selectReferrer()"></td>
+	</tr>
+	<tr>
 		<td>接收人</td>
 		<td><input id="receiver" name="receiver"></td>
+	</tr>
+	<tr>
 		<td>接收位置</td>
 		<td><input type="radio" name="is_order_store" value="0" checked="checked">左边</input><input type="radio" name="is_order_store" value="0">右边</input></td>
 	</tr>
 	<tr>
+		<td>接单商务店</td>
+		<input type="hidden" id="recive_order_store_" name="recive_order_store">
+		<td><input id="recive_order_store_name" readonly="readonly" onclick="selectOrderStore()"></td>
+	</tr>
+	<tr>
 		<td>登陆名</td>
 		<td><input id="login_name" name="login_name"></td>
+	</tr>
+	<tr>
 		<td>真实姓名</td>
 		<td><input id="real_name" name="real_name"></td>
+	</tr>
+	<tr>
 		<td>身份证号码</td>
 		<td><input id="card_id" name="card_id"></td>
 	</tr>
 	<tr class="a1">
 		<td>联系电话</td>
 		<td><input id="phone" name="phone"></td>
+	</tr>
+	<tr>
 		<td>详细地址</td>
 		<td><input id="detail_addres" name="detail_addres"></td>
+	</tr>
+	<tr>
 		<td>邮件地址</td>
 		<td><input id="email" name="email"></td>
 	</tr>
 	<tr class="a1">
-		<td>接单商务店</td>
-		<td><input type="radio" name="is_order_store" value="0" checked="checked">是</input><input type="radio" name="is_order_store" value="0">否</input></td>
+		<td>是否商务店</td>
+		<td><input type="radio" name="is_order_store" value="1" checked="checked">是</input><input type="radio" name="is_order_store" value="0">否</input></td>
+	</tr>
+	<tr>
+		<td>商务店级别</td>
+		<td>
+		<input type="radio" name="store_level" value="1">省</input>
+		<input type="radio" name="store_level" value="2">市</input>
+		<input type="radio" name="store_level" value="3">区县</input>
+		</td>
+	</tr>
+	<tr>
 		<td>商务店名称</td>
 		<td><input id="store_name" name="store_name"></td>
+	</tr>
+	<tr>
 		<td>商务店代理地址</td>
-		<td><input id="store_agent_address" name="store_agent_address"></td>
+		<td><span id="selectArea"></span></span><input id="store_agent_address" name="store_agent_address"></td>
 	</tr>
 	<tr>
 		<td>开户银行</td>
 		<td><input id="account_bank" name="account_bank"></td>
+	</tr>
+	<tr>
 		<td>银行卡号码</td>
 		<td><input id="bank_card_code" name="bank_card_code"></td>
+	</tr>
+	<tr>
 		<td>开户银行所在省</td>
-		<td><input id="bank_province" name="bank_province"></td>
+		<td>
+			<select id="bank_province" name="bank_province">
+				<option value="">请选择</option>
+			</select>
+		</td>
 	</tr>
 	<tr class="a1">
 		<td>开户银行所在城市</td>
-		<td><input id="bank_city" name="bank_city"></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>
+			<select id="bank_city" name="bank_city">
+			
+			</select>
+		</td>
 	</tr>
 	<tr>
 		<td>汇入账户</td>
 		<td><input id="remit_account" name="remit_account"></td>
+	</tr>
+	<tr>
 		<td>汇入账户开户行</td>
 		<td><input id="remit_account_bank" name="remit_account_bank"></td>
+	</tr>
+	<tr>
 		<td>汇款时间</td>
-		<td><input id="remit_datetime" name="remit_datetime"></td>
+		<td><input id="remit_datetime" name="remit_datetime" readonly="readonly"></td>
 	</tr>
 	<tr class="a1">
 		<td>汇款金额</td>
 		<td><input id="remit_money" name="remit_money"></td>
+	</tr>
+	<tr>
 		<td>汇款人</td>
 		<td><input id="remot_peple" name="remot_peple"></td>
-		<td></td>
-		<td></td>
 	</tr>
 </table>
 <input type="button" id="addinfo" value="提交"/>
@@ -192,12 +234,130 @@ $(document).ready(function(){
 	    });
 	};
 	
+	$("input[name='store_level']").click(function(){
+		var level = $(":radio[name='store_level']:checked").val();
+		
+		$("#selectArea").empty();
+		if( '1' == level){
+			$("#selectArea").append("<select id='province' name='area_level_id'></select>");
+			provinceList()
+		}else if( '2'== level){
+			$("#selectArea").append("<select id='province' onchange='provinceChange()'></select>");
+			$("#selectArea").append("<select id='city' name='area_level_id'></select>");
+			provinceList()
+		}else if( '3' == level){
+			$("#selectArea").append("<select id='province' onchange='provinceChange()'></select>");
+			$("#selectArea").append("<select id='city' onchange='cityChange()'></select>");
+			$("#selectArea").append("<select id='area' name='area_level_id'></select>");
+			provinceList()
+		}
+	});
+	
+	$.ajax({
+		url:"../common/province.action",
+		type: 'get',
+		async:false,
+		success:function(data){
+			$.each(data, function (i, o) {
+	             $("#bank_province").append("<option value='"+o.provinceID+"'>"+o.province+"</option>")
+	        });
+		},
+		dataType:"json"
+    });
+	
+	$("#bank_province").change(function(){
+		$.ajax({
+			url:"../common/cityList.action",
+			type: 'get',
+			data:{
+				'province':$("#bank_province").val()
+			},
+			async:false,
+			success:function(data){
+				$("#bank_city").empty();
+				$.each(data, function (i, o) {
+		             $("#bank_city").append("<option value='"+o.cityID+"'>"+o.city+"</option>")
+		        });
+			},
+			dataType:"json"
+	    });
+	});
 })
+
+function provinceList(){
+	$.ajax({
+		url:"../common/province.action",
+		type: 'get',
+		async:false,
+		success:function(data){
+			$("#province").append("<option value=''>请选择</option>'");
+			$.each(data, function (i, o) {
+	             $("#province").append("<option value='"+o.provinceID+"'>"+o.province+"</option>")
+	        });
+		},
+		dataType:"json"
+    });
+}
+
+function provinceChange(){
+	cityList();
+}
+
+function cityList(){
+	$.ajax({
+		url:"../common/cityList.action",
+		type: 'get',
+		async:false,
+		data:{
+			'province':$("#province").val()
+		},
+		success:function(data){
+			$("#city").empty();
+			$("#city").append("<option value=''>请选择</option>'");
+			$.each(data, function (i, o) {
+	             $("#city").append("<option value='"+o.cityID+"'>"+o.city+"</option>")
+	        });
+		},
+		dataType:"json"
+    });
+}
+
+function cityChange(){
+	areaList();
+}
+
+function areaList(){
+	$.ajax({
+		url:"../common/areaList.action",
+		type: 'get',
+		async:false,
+		data:{
+			'city':$("#city").val()
+		},
+		success:function(data){
+			$("#area").empty();
+			$("#area").append("<option value=''>请选择</option>'");
+			$.each(data, function (i, o) {
+	             $("#area").append("<option value='"+o.areaID+"'>"+o.area+"</option>")
+	        });
+		},
+		dataType:"json"
+    });
+}
+
 function selectReferrer()
 {
 	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
 	$("#referrerId").val(r.id);
 	$("#referrer").val(r.name);
 }
+
+function selectOrderStore()
+{
+	r = window.showModalDialog('../member/orderStoreList.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
+	$("#recive_order_store_").val(r.id);
+	$("#recive_order_store_name").val(r.name);
+}
+ESONCalendar.bind("remit_datetime");
 </script>
 </html>

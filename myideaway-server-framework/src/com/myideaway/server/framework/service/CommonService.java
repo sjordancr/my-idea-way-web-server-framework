@@ -17,5 +17,17 @@ public class CommonService {
 	public List<Map<String, Object>> getTree(Map<String,Object> param){
 		return commonMapper.getTree(param);
 	}
+	
+	public List<Map<String, Object>> provinceList(){
+		return commonMapper.getAllProvince();
+	}
+	
+	public List<Map<String, Object>> cityListByProvince(long province){
+		return commonMapper.getCityListByProvince(province);
+	}
+	
+	public List<Map<String, Object>> areaListByCity(long city){
+		return commonMapper.getAreaListByCity(city);
+	}
 
 }

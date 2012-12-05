@@ -26,6 +26,11 @@ public class MemberInfo {
 	String remit_peple;
 	float remit_money;
 	long referrerId;
+	Long recive_order_store;
+	int store_level;
+	int own_money;
+	int area_level_id;
+	
 	public long getId() {
 		return id;
 	}
@@ -163,5 +168,30 @@ public class MemberInfo {
 	}
 	public void setReferrerId(long referrerId) {
 		this.referrerId = referrerId;
+	}
+	
+	public Long getRecive_order_store() {
+		return recive_order_store;
+	}
+	public void setRecive_order_store(Long recive_order_store) {
+		this.recive_order_store = recive_order_store;
+	}
+	public int getStore_level() {
+		return store_level;
+	}
+	public void setStore_level(int store_level) {
+		this.store_level = store_level;
+	}
+	public int getOwn_money() {
+		return own_money;
+	}
+	public void setOwn_money(int own_money) {
+		this.own_money = own_money;
+	}
+	public int getArea_level_id() {
+		return area_level_id;
+	}
+	public void setArea_level_id(int area_level_id) {
+		this.area_level_id = area_level_id;
 	}
 }

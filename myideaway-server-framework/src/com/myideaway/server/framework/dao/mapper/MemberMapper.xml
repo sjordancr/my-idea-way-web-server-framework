@@ -6,12 +6,13 @@
 		card_id, account_bank, bank_card_code, bank_province, bank_city,
 		phone, detail_addres, is_check_cash, store_name, store_agent_address,
 		email, remit_account, remit_account_bank, remit_datetime, remit_peple,
-		remit_money)
+		remit_money,recive_order_store,store_level,area_level_id)
+		
 		values (#{referrer},#{receiver},#{is_order_store},#{login_name},#{real_name},
 		#{card_id},#{account_bank},#{bank_card_code},#{bank_province},#{bank_city},
 		#{phone},#{detail_addres},0,#{store_name},#{store_agent_address},
 		#{email},#{remit_account},#{remit_account_bank},#{remit_datetime},#{remit_peple},
-		#{remit_money})
+		#{remit_money},#{recive_order_store},#{store_level},#{area_level_id})
 	</insert>
 	<select id="selectMemberList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select m.*,case m.is_order_store when 0 then '否' when 1 then '是' else '' end as is_order_store_desc from t_member m limit #{onePageCount} offset #{start}
@@ -89,5 +90,36 @@
 	</select>
 	<update id="checkMember" parameterType="java.lang.Long">
 		update t_member_tree set isChecked = 1 where id = #{id} 
+	</update>
+	<select id="selectStoreList" resultType="java.util.HashMap">
+		SELECT * from t_member where is_order_store = 1 limit #{onePageCount} offset #{start}
+	</select>
+	<select id="selectStoreListCount" resultType="java.lang.Long">
+		SELECT count(1) from t_member where is_order_store = 1
+	</select>
+	<select id="selectMemberById" resultType="com.myideaway.server.framework.entities.MemberInfo" parameterType="java.lang.Long">
+		SELECT * from t_member where id = #{id}
+	</select>
+	<update id="updateMemberMoney" parameterType="java.util.HashMap">
+		update t_member set own_money = #{money} where id = #{id}
+	</update>
+	<select id="selectProvinceStore" resultType="com.myideaway.server.framework.entities.MemberInfo"  parameterType="java.util.HashMap">
+		select * from t_member 
+			where area_level_id = (
+			select father from city where cityID = #{cityID})
+	</select>
+	<select id="selectCityStore" resultType="com.myideaway.server.framework.entities.MemberInfo"  parameterType="java.util.HashMap">
+		select * from t_member 
+			where area_level_id = (
+			select father from area where areaID = #{areaID})
+	</select>
+	<select id="selectMoneyStoreList" resultType="java.util.HashMap" parameterType="java.util.HashMap"> 
+		SELECT * from t_member where is_order_store = 1 and own_money > 0 limit #{onePageCount} offset #{start}
+	</select>
+	<select id="selectMoneyStoreListCount" resultType="java.lang.Long">
+		SELECT count(1) from t_member where is_order_store = 1 and own_money > 0  
+	</select>
+	<update id="clearStoreMoney" parameterType="java.lang.Long">
+		update t_member set own_money = 0 where id = #{id}  
 	</update>
 </mapper>
