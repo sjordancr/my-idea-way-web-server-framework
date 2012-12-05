@@ -68,8 +68,7 @@ public class MathOrderStoreMoney implements Runnable{
 				memberMapper.updateMemberMoney(param);
 				param.put("member_id", param.get("id"));
 				storeMoneyLogMapper.insertlog(param);
-			}
-			else{
+				
 				param.put("cityID", memberInfo.getArea_level_id());
 				memberInfo = memberMapper.selectProvinceStore(param);
 				if(memberInfo != null){
