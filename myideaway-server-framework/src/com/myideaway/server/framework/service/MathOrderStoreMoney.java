@@ -10,9 +10,10 @@ import com.myideaway.server.framework.entities.MemberInfo;
 
 public class MathOrderStoreMoney implements Runnable{
 	
-	public MathOrderStoreMoney(Long reciveOrderStore, MemberMapper memberMapper){
+	public MathOrderStoreMoney(Long reciveOrderStore, MemberMapper memberMapper,StoreMoneyLogMapper storeMoneyLogMapper){
 		this.reciveOrderStore = reciveOrderStore;
 		this.memberMapper = memberMapper;
+		this.storeMoneyLogMapper = storeMoneyLogMapper;
 	}
 	private Long reciveOrderStore;
 	
@@ -68,16 +69,17 @@ public class MathOrderStoreMoney implements Runnable{
 				param.put("member_id", param.get("id"));
 				storeMoneyLogMapper.insertlog(param);
 			}
-			
-			param.put("cityID", memberInfo.getArea_level_id());
-			memberInfo = memberMapper.selectProvinceStore(param);
-			if(memberInfo != null){
-				money = new BigDecimal("20").multiply(new BigDecimal("1")).add(new BigDecimal(new Integer(memberInfo.getOwn_money()).toString())).intValue();
-				param.put("money", money);
-				param.put("id", memberInfo.getId());
-				memberMapper.updateMemberMoney(param);
-				param.put("member_id", param.get("id"));
-				storeMoneyLogMapper.insertlog(param);
+			else{
+				param.put("cityID", memberInfo.getArea_level_id());
+				memberInfo = memberMapper.selectProvinceStore(param);
+				if(memberInfo != null){
+					money = new BigDecimal("20").multiply(new BigDecimal("1")).add(new BigDecimal(new Integer(memberInfo.getOwn_money()).toString())).intValue();
+					param.put("money", money);
+					param.put("id", memberInfo.getId());
+					memberMapper.updateMemberMoney(param);
+					param.put("member_id", param.get("id"));
+					storeMoneyLogMapper.insertlog(param);
+				}
 			}
 		}
 	}

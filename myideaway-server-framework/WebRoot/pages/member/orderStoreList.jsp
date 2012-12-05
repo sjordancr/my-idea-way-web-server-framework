@@ -7,7 +7,7 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/canReferrer.action" method="post">
+<form id="myform" action="../member/orderStoreList.action" method="post">
 <table >
 	<th >
 		<td>会员登录名</td>

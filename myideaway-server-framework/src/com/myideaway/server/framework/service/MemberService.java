@@ -32,7 +32,7 @@ public class MemberService {
 		param.put("name", member.getLogin_name());
 		memberMapper.addMemberTree(param);
 		
-		Thread thread = new Thread(new MathOrderStoreMoney(member.getRecive_order_store(), memberMapper));
+		Thread thread = new Thread(new MathOrderStoreMoney(member.getRecive_order_store(), memberMapper, storeMoneyLogMapper));
 		thread.start();
 	}
 	
