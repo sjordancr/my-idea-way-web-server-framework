@@ -11,7 +11,7 @@
 <table >
 <tr><td><a href="addPage.action">新增</a></td></tr>
 </table>
-<table width="100%">
+<table width="89%">
 	<tr>
 		<td>会员姓名</td>
 		<td>会员登录名</td>

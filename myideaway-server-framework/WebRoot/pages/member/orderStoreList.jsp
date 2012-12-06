@@ -8,7 +8,7 @@
 <body>
 <div>
 <form id="myform" action="../member/orderStoreList.action" method="post">
-<table >
+<table windth="89%">
 	<th >
 		<td>会员登录名</td>
 	</th>

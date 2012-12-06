@@ -30,6 +30,7 @@ public class MathOrderStoreMoney implements Runnable{
 			memberMapper.updateMemberMoney(param);
 			param.put("member_id", param.get("id"));
 			param.put("flag", "1");
+			param.put("money",120);
 			storeMoneyLogMapper.insertlog(param);
 			
 		}else if( Constant.OrderLevel.City == memberInfo.getStore_level()){
@@ -38,7 +39,7 @@ public class MathOrderStoreMoney implements Runnable{
 			param.put("member_id", param.get("id"));
 			param.put("flag", "1");
 			memberMapper.updateMemberMoney(param);
-			
+			param.put("money", 100);
 			storeMoneyLogMapper.insertlog(param);
 			param.put("cityID", memberInfo.getArea_level_id());
 			memberInfo = memberMapper.selectProvinceStore(param);
@@ -47,6 +48,7 @@ public class MathOrderStoreMoney implements Runnable{
 				param.put("money", money);
 				param.put("id", memberInfo.getId());
 				memberMapper.updateMemberMoney(param);
+				param.put("money", 20);
 				param.put("member_id", param.get("id"));
 				storeMoneyLogMapper.insertlog(param);
 			}
@@ -57,9 +59,13 @@ public class MathOrderStoreMoney implements Runnable{
 			memberMapper.updateMemberMoney(param);
 			param.put("member_id", param.get("id"));
 			param.put("flag", "1");
+			
+			param.put("money", 80);
 			storeMoneyLogMapper.insertlog(param);
 			
+			
 			param.put("areaID", memberInfo.getArea_level_id());
+			
 			memberInfo = memberMapper.selectCityStore(param);
 			if(memberInfo != null){
 				money = new BigDecimal("20").multiply(new BigDecimal("1")).add(new BigDecimal(new Integer(memberInfo.getOwn_money()).toString())).intValue();
@@ -67,6 +73,8 @@ public class MathOrderStoreMoney implements Runnable{
 				param.put("id", memberInfo.getId());
 				memberMapper.updateMemberMoney(param);
 				param.put("member_id", param.get("id"));
+				
+				param.put("money", 20);
 				storeMoneyLogMapper.insertlog(param);
 				
 				param.put("cityID", memberInfo.getArea_level_id());
@@ -76,6 +84,8 @@ public class MathOrderStoreMoney implements Runnable{
 					param.put("money", money);
 					param.put("id", memberInfo.getId());
 					memberMapper.updateMemberMoney(param);
+					
+					param.put("money", 20);
 					param.put("member_id", param.get("id"));
 					storeMoneyLogMapper.insertlog(param);
 				}

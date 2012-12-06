@@ -7,7 +7,7 @@
 </head>
 <body>
 <form id="myform" action="../member/canReferrer.action" method="post">
-<table width="100%">
+<table width="89%">
 	<tr >
 		<td>会员姓名</td>
 		<td>会员登录名</td>

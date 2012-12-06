@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.myideaway.server.framework.dao.mapper.StoreMoneyLogMapper;
 import com.myideaway.server.framework.entities.MemberInfo;
+import com.myideaway.server.framework.service.MathOrderStoreMoney;
 import com.myideaway.server.framework.service.MemberService;
 import com.myideaway.server.framework.web.common.Page;
 
@@ -119,6 +121,18 @@ public class MemberController {
 		memberService.clearMoney(id);
 		
 		return "redirect:moneyOrderStoreList.action";
+	}
+	
+	@RequestMapping("/logList")
+	public String logList(@RequestParam Long id,@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("id", id);
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.moneyLogList(param, page));
+		return "member/logList";
 	}
 	
 }

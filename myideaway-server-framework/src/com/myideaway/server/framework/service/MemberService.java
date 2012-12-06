@@ -131,4 +131,13 @@ public class MemberService {
 		param.put("flag", 0);
 		storeMoneyLogMapper.insertlog(param);
 	}
+	
+	public List<HashMap<String, Object>> moneyLogList(HashMap<String, Object> param,Page page){
+		page.setCount(storeMoneyLogMapper.logListCount((Long)param.get("id")));
+		PageUtil.makePage(page);
+		
+		param.put("start", page.getStart());
+		param.put("onePageCount", page.getOnePageCount());
+		return storeMoneyLogMapper.logList(param);
+	}
 }
