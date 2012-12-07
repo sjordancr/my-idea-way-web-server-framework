@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<% 
+request.setAttribute("pepleType", request.getSession().getAttribute("pepleType"));
+ %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,6 +22,7 @@
 		<td>联系电话</td>
 		<td>电子邮件</td>
 		<td>是否商务店</td>
+		<c:if test="${pepleType==1}"><td>操作</td></c:if>
 	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
@@ -28,6 +32,7 @@
 		<td>${mem.phone}</td>
 		<td>${mem.email}</td>
 		<td>${mem.is_order_store_desc}<c:if test="mem.is_order_store == 1">asd </c:if></td>
+		<c:if test="${pepleType==1&&mem.is_active!=1}"><td><a href="#" onclick="doChangeType(${mem.id});" id ="active_link">激活</a></td></c:if>
 	</tr>
 	</c:forEach>
 </table>
@@ -44,6 +49,9 @@ $(document).ready(function() {
 PageClick = function(pageclickednumber) {
 	$("#currentPage").val(pageclickednumber);
     $("#myform").submit();
+}
+function doChangeType(id){
+	DwrService.chanageIsActive(id,function(data){if(data){alert("激活成功!");$("#active_link").hide();}else{alert("激活失败!");}});
 }
 </script>
 </html>

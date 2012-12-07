@@ -6,13 +6,13 @@
 		card_id, account_bank, bank_card_code, bank_province, bank_city,
 		phone, detail_addres, is_check_cash, store_name, store_agent_address,
 		email, remit_account, remit_account_bank, remit_datetime, remit_peple,
-		remit_money,recive_order_store,store_level,area_level_id)
+		remit_money,recive_order_store,store_level,area_level_id,is_active)
 		
 		values (#{referrer},#{receiver},#{is_order_store},#{login_name},#{real_name},
 		#{card_id},#{account_bank},#{bank_card_code},#{bank_province},#{bank_city},
 		#{phone},#{detail_addres},0,#{store_name},#{store_agent_address},
 		#{email},#{remit_account},#{remit_account_bank},#{remit_datetime},#{remit_peple},
-		#{remit_money},#{recive_order_store},#{store_level},#{area_level_id})
+		#{remit_money},#{recive_order_store},#{store_level},#{area_level_id},0)
 	</insert>
 	<select id="selectMemberList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select m.*,case m.is_order_store when 0 then '否' when 1 then '是' else '' end as is_order_store_desc from t_member m limit #{onePageCount} offset #{start}
@@ -25,16 +25,24 @@
 		values(#{id},#{pid},#{name},0)
 	</insert>
 	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select m.* from t_member m INNER JOIN (
-				select v1.id,count(1) as own_member from t_member_tree v1 
-				left JOIN t_member_tree v2 on v1.id = v2.pid 
-				LEFT JOIN t_member_tree v3 on v2.id = v3.pid
-				LEFT JOIN t_member_tree v4 on v3.id = v4.pid
-				left JOIN t_member_tree v5 on v4.id = v5.pid
-				where v1.isChecked = 0
-				GROUP BY v1.id HAVING own_member = 16
-			) v on m.id = v.id 
-			limit #{onePageCount} offset #{start}
+		select m.*
+  from t_member m
+ INNER JOIN (select v1.id, count(1) as own_member
+               from t_member_tree v1
+               left JOIN t_member_tree v2
+                 on v1.id = v2.pid
+               LEFT JOIN t_member_tree v3
+                 on v2.id = v3.pid
+               LEFT JOIN t_member_tree v4
+                 on v3.id = v4.pid
+               left JOIN t_member_tree v5
+                 on v4.id = v5.pid
+              where v1.isChecked = 0
+              GROUP BY v1.id
+             HAVING own_member = 16) v
+    on m.id = v.id
+   and m.is_active = 1 limit #{onePageCount} offset #{start}
+
 	</select>
 	<select id="iNeedMoneyMoneyCount" resultType="java.lang.Long">
 		select count(1) from (
@@ -74,28 +82,28 @@
 				left JOIN t_member_tree v2 on v1.id = v2.pid 
 				where v1.isChecked = 0
 				GROUP BY v1.id HAVING own_member < 2
-			) v on m.id = v.id 
+			) v on m.id = v.id and m.is_active = 1
 		limit #{onePageCount} offset #{start}
 		]]>
 	</select>
 	<select id="selectCanReferrerCount" resultType="java.lang.Long" parameterType="java.util.HashMap">
 		<![CDATA[
-		select count(1) from (
+			select count(1) from (
 				select v1.id,count(1) as own_member from t_member_tree v1 
 				left JOIN t_member_tree v2 on v1.id = v2.pid 
 				where v1.isChecked = 0
 				GROUP BY v1.id HAVING own_member < 2
-			) v
+			) v inner join t_member m on m.id = v.id and m.is_active = 1
 		]]>
 	</select>
 	<update id="checkMember" parameterType="java.lang.Long">
 		update t_member_tree set isChecked = 1 where id = #{id} 
 	</update>
 	<select id="selectStoreList" resultType="java.util.HashMap">
-		SELECT * from t_member where is_order_store = 1 limit #{onePageCount} offset #{start}
+		SELECT * from t_member where is_order_store = 1 and is_active = 1 limit #{onePageCount} offset #{start}
 	</select>
 	<select id="selectStoreListCount" resultType="java.lang.Long">
-		SELECT count(1) from t_member where is_order_store = 1
+		SELECT count(1) from t_member where is_order_store = 1 and is_active = 1
 	</select>
 	<select id="selectMemberById" resultType="com.myideaway.server.framework.entities.MemberInfo" parameterType="java.lang.Long">
 		SELECT * from t_member where id = #{id}
@@ -121,5 +129,9 @@
 	</select>
 	<update id="clearStoreMoney" parameterType="java.lang.Long">
 		update t_member set own_money = 0 where id = #{id}  
+	</update>
+	
+	<update id="changeTypeToActive" parameterType="java.lang.Long">
+		update t_member set is_active = 1 where id = #{id}  
 	</update>
 </mapper>

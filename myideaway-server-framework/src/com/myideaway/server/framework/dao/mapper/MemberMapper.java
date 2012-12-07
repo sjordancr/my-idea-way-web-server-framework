@@ -33,4 +33,5 @@ public interface MemberMapper {
 	public List<HashMap<String, Object>> selectMoneyStoreList(HashMap<String, Object> param);
 	public Long selectMoneyStoreListCount();
 	public void clearStoreMoney(Long id);
+	public void changeTypeToActive(Long id);
 }

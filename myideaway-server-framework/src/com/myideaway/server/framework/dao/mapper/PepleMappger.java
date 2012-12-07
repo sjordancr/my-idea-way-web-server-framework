@@ -13,5 +13,7 @@ public interface PepleMappger {
 	public Long checkPepleCount(String param);
 	
 	public Integer queryPepleChildrenById(Long id);
+	
+	public Integer queryPepleType(Long id);
 
 }

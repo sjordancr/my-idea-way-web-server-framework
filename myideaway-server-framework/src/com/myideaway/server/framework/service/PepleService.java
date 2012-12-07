@@ -9,24 +9,28 @@ import com.myideaway.server.framework.dao.mapper.PepleMappger;
 
 @Service("pepleService")
 public class PepleService {
-	
+
 	@Autowired
 	private PepleMappger pepleMappger;
-	
-	public HashMap<String, Object> getPepleById(long id){
+
+	public HashMap<String, Object> getPepleById(long id) {
 		return pepleMappger.queryPepleById(id);
 	}
 
-	public long checkPeple(String param){
-		
+	public long checkPeple(String param) {
+
 		try {
 			return pepleMappger.checkPepleCount(param);
 		} catch (Exception e) {
 			return 0;
 		}
 	}
-	
-	public int getPepleChildrenCount(Long id){
+
+	public int getPepleChildrenCount(Long id) {
 		return pepleMappger.queryPepleChildrenById(id);
+	}
+
+	public int getPepleType(Long id) {
+		return pepleMappger.queryPepleType(id);
 	}
 }
