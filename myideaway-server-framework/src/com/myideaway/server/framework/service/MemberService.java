@@ -145,6 +145,10 @@ public class MemberService {
 		param.put("onePageCount", page.getOnePageCount());
 		return storeMoneyLogMapper.logList(param);
 	}
+
+	public void changeTypeToActive(Long id){
+		memberMapper.changeTypeToActive(id);
+	}
 	
 	public List<HashMap<String, Object>> checkLogList(HashMap<String, Object> param,Page page){
 		page.setCount(memberCheckLogMapper.logListCount());

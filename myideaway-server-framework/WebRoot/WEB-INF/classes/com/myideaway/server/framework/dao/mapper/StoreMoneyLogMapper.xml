@@ -6,7 +6,7 @@
 		values(#{member_id},#{money},now(),#{flag},#{from_member_id},#{from_member_name})
 	</insert>
 	<select id="logList" resultType="java.util.HashMap" parameterType ="java.util.HashMap">
-		select money,datetime,case flag when 1 then '进账' when 0 then '出账' END as flag 
+		select money,datetime,case flag when 1 then '进账' when 0 then '出账' END as flag,from_member_name 
 		  from t_order_store_money_log 
 		 where member_id = #{id}
 	</select>

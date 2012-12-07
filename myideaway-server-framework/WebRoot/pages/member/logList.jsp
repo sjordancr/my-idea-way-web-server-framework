@@ -14,12 +14,14 @@
 		<td>金额</td>
 		<td>时间</td>
 		<td>操作</td>
+		<td>提成来源</td>
 	</tr>
 	<c:forEach items="${list}" var="log">
 	<tr >
 		<td>${log.money}元</td>
 		<td><fmt:formatDate value="${log.datetime}" type="time" timeStyle="full" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		<td>${log.flag}</td>
+		<td>${log.from_member_name}</td>
 	</tr>
 	</c:forEach>
 </table>
