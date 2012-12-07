@@ -28,6 +28,7 @@ public class LoginController {
 		}
 		else{
 			request.getSession().setAttribute("peple", result);
+			request.getSession().setAttribute("pepleType", result.getType());
 			return new Message(true, "");
 		}
 	}

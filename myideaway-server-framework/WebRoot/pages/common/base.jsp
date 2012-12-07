@@ -16,4 +16,6 @@ request.getSession().setAttribute("basePath",basePath);
 <script type="text/javascript" src="${basePath }scripts/jquery.validate.js"></script>
 <script type="text/javascript" src="${basePath }scripts/messages_cn.js"></script>
 <script src="${basePath }scripts/jquery.pager.js" type="text/javascript"></script>
+<script type='text/javascript' src='${basePath}dwr/engine.js'></script>
+<script type='text/javascript' src='${basePath}dwr/interface/DwrService.js'></script>
 <title>Insert title here</title>

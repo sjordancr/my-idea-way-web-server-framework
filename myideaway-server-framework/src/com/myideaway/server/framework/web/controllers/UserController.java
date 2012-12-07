@@ -2,7 +2,7 @@ package com.myideaway.server.framework.web.controllers;
 
 import java.io.Serializable;
 
-import org.apache.tomcat.jni.User;
+//import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

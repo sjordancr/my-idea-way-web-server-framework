@@ -140,4 +140,8 @@ public class MemberService {
 		param.put("onePageCount", page.getOnePageCount());
 		return storeMoneyLogMapper.logList(param);
 	}
+	
+	public void changeTypeToActive(Long id){
+		memberMapper.changeTypeToActive(id);
+	}
 }

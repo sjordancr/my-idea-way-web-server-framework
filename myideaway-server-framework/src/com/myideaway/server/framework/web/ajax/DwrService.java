@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.myideaway.server.framework.service.EntityUserService;
+import com.myideaway.server.framework.service.MemberService;
+import com.myideaway.server.framework.service.PepleService;
+import com.sun.org.apache.regexp.internal.RE;
 
 /**
  * <p>
@@ -21,13 +24,28 @@ import com.myideaway.server.framework.service.EntityUserService;
 @RemoteProxy(creator = SpringCreator.class)
 public class DwrService {
 	@Autowired
-	private EntityUserService service;
-//	@Autowired
-//	private JdbcTemplate jdbcTemplate;
+	private PepleService service;
+	@Autowired
+	private MemberService service2;
+
+	// @Autowired
+	// private JdbcTemplate jdbcTemplate;
 
 	@RemoteMethod
-	public void deleteUser(String userId) {
-		service.deleteUser(userId);
+	public Integer getPepleType(Long userId) {
+		return service.getPepleType(userId);
+	}
+
+	@RemoteMethod
+	public Boolean chanageIsActive(Long userId) {
+		try {
+			service2.changeTypeToActive(userId);
+			return Boolean.TRUE;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return Boolean.FALSE;
+		}
 	}
 
 }
