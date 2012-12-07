@@ -135,4 +135,16 @@ public class MemberController {
 		return "member/logList";
 	}
 	
+	@RequestMapping("/queryCheckLog")
+	public String queryCheckLog(@ModelAttribute Page page,Model model){
+		if( page == null){
+			page = new Page();
+		}
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		
+		model.addAttribute("page",page);
+		model.addAttribute("list", memberService.checkLogList(param, page));
+		return "member/memberCheckLogList";
+	}
+	
 }

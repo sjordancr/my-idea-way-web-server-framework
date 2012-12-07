@@ -24,6 +24,8 @@ public class MathOrderStoreMoney implements Runnable{
 		MemberInfo memberInfo = memberMapper.selectMemberById(reciveOrderStore);
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("id", reciveOrderStore);
+		param.put("from_member_id",memberInfo.getId());
+		param.put("from_member_name", memberInfo.getLogin_name());
 		if( Constant.OrderLevel.Provice == memberInfo.getStore_level()){
 			int money = new BigDecimal("20").multiply(new BigDecimal("6")).add(new BigDecimal(new Integer(memberInfo.getOwn_money()).toString())).intValue();
 			param.put("money", money);
@@ -39,6 +41,7 @@ public class MathOrderStoreMoney implements Runnable{
 			param.put("member_id", param.get("id"));
 			param.put("flag", "1");
 			memberMapper.updateMemberMoney(param);
+			
 			param.put("money", 100);
 			storeMoneyLogMapper.insertlog(param);
 			param.put("cityID", memberInfo.getArea_level_id());
@@ -50,6 +53,7 @@ public class MathOrderStoreMoney implements Runnable{
 				memberMapper.updateMemberMoney(param);
 				param.put("money", 20);
 				param.put("member_id", param.get("id"));
+				param.put("from_member_id", memberInfo.getId());
 				storeMoneyLogMapper.insertlog(param);
 			}
 			

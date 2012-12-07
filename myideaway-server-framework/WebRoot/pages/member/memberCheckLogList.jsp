@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,34 +8,24 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/list.action" method="post">
-<table >
-<tr><td><a href="addPage.action">新增</a></td></tr>
-</table>
-<table width="89%">
+<form id="myform" action="../member/queryCheckLog.action" method="post">
+<table windth="89%">
 	<tr>
-		<td>会员姓名</td>
-		<td>会员登录名</td>
-		<td>身份证号</td>
-		<td>联系电话</td>
-		<td>电子邮件</td>
-		<td>是否商务店</td>
+		<td>登录名</td>
+		<td width="50%" align="center">结算日期</td>
+		<td width="30%">结算金额</td>
 	</tr>
-	<c:forEach items="${list}" var="mem">
+	<c:forEach items="${list}" var="log">
 	<tr >
-		<td>${mem.real_name}</td>
-		<td>${mem.login_name}</td>
-		<td>${mem.card_id}</td>
-		<td>${mem.phone}</td>
-		<td>${mem.email}</td>
-		<td>${mem.is_order_store_desc}<c:if test="mem.is_order_store == 1">asd </c:if></td>
+		<td>${log.member_name }</td>
+		<td><fmt:formatDate value="${log.check_datetime}" type="time" timeStyle="full" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		<td>${log.money}元</td>
 	</tr>
 	</c:forEach>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
-</form>
-
 <div id="pager"></div>
+</form>
 </div>
 </body>
 <script type="text/javascript">
@@ -44,6 +35,13 @@ $(document).ready(function() {
 PageClick = function(pageclickednumber) {
 	$("#currentPage").val(pageclickednumber);
     $("#myform").submit();
+}
+function selectId(id,a){
+	var r = {};
+	r.id = id;
+	r.name = a.textContent;
+	window.returnValue = r;
+	window.close();
 }
 </script>
 </html>
