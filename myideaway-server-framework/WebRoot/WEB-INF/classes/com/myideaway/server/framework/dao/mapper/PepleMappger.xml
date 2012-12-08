@@ -19,4 +19,8 @@
 	<select id="queryPepleChildrenById" resultType="java.lang.Integer" parameterType="java.lang.Long">
 			select count(1) from t_peple_relation_tree where pid = #{id}
 	</select>
+	
+	<select id="queryPepleType" resultType="java.lang.Integer" parameterType="java.lang.Long">
+			select ti.type from t_peple_info ti where ti.t_peple_info_id = #{id}
+	</select>
 </mapper>

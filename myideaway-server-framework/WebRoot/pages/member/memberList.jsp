@@ -31,7 +31,7 @@ request.setAttribute("pepleType", request.getSession().getAttribute("pepleType")
 		<td>${mem.card_id}</td>
 		<td>${mem.phone}</td>
 		<td>${mem.email}</td>
-		<td>${mem.is_order_store_desc}</td>
+		<td>${mem.is_order_store_desc}<c:if test="${ mem.is_order_store == 1}"><a href="#" onclick="window.showModalDialog('../member/logList.action?id=${mem.id}','')">查看流水</a></c:if></td>
 		<c:if test="${pepleType==1&&mem.is_active!=1}"><td><a href="#" onclick="doChangeType(${mem.id});" id ="active_link">激活</a></td></c:if>
 	</tr>
 	</c:forEach>

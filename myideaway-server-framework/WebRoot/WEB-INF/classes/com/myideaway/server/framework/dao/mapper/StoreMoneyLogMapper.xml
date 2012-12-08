@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myideaway.server.framework.dao.mapper.StoreMoneyLogMapper">
 	<insert id="insertlog" parameterType ="java.util.HashMap">
-		insert into t_order_store_money_log(member_id, money, datetime,flag)
-		values(#{member_id},#{money},now(),#{flag})
+		insert into t_order_store_money_log(member_id, money, datetime,flag,from_member_id,from_member_name)
+		values(#{member_id},#{money},now(),#{flag},#{from_member_id},#{from_member_name})
 	</insert>
 	<select id="logList" resultType="java.util.HashMap" parameterType ="java.util.HashMap">
-		select money,datetime,case flag when 1 then '进账' when 0 then '出账' END as flag from t_order_store_money_log where member_id = #{id}
+		select money,datetime,case flag when 1 then '进账' when 0 then '出账' END as flag,from_member_name 
+		  from t_order_store_money_log 
+		 where member_id = #{id}
 	</select>
 	<select id="logListCount" resultType="java.lang.Long" parameterType ="java.lang.Long">
 		select count(1) from t_order_store_money_log where member_id = #{id}

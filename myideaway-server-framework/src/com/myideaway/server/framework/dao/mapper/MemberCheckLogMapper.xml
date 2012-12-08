@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myideaway.server.framework.dao.mapper.MemberCheckLogMapper">
+	<insert id="insertlog" parameterType ="java.lang.Long">
+		INSERT INTO t_member_check_log(member_id, member_name,money,check_datetime)
+		SELECT m.id ,m.login_name ,20000,now() from t_member m where m.id = #{id}
+	</insert>
+	<select id="logList" resultType="java.util.HashMap" parameterType ="java.util.HashMap">
+		select member_name,money,check_datetime from t_member_check_log
+		limit #{onePageCount} offset #{start}
+	</select>
+	<select id="logListCount" resultType="java.lang.Long">
+		select count(1) from t_member_check_log
+	</select>
+</mapper>

@@ -8,20 +8,18 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/canReferrer.action" method="post">
-<table width="89%">
-	<tr >
-		<td>金额</td>
-		<td>时间</td>
-		<td>操作</td>
-		<td>提成来源</td>
+<form id="myform" action="../member/queryCheckLog.action" method="post">
+<table windth="89%">
+	<tr>
+		<td>登录名</td>
+		<td width="50%" align="center">结算日期</td>
+		<td width="30%">结算金额</td>
 	</tr>
 	<c:forEach items="${list}" var="log">
 	<tr >
+		<td>${log.member_name }</td>
+		<td><fmt:formatDate value="${log.check_datetime}" type="time" timeStyle="full" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		<td>${log.money}元</td>
-		<td><fmt:formatDate value="${log.datetime}" type="time" timeStyle="full" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		<td>${log.flag}</td>
-		<td>${log.from_member_name}</td>
 	</tr>
 	</c:forEach>
 </table>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myideaway.server.framework.annotation.Pager;
+import com.myideaway.server.framework.dao.mapper.MemberCheckLogMapper;
 import com.myideaway.server.framework.dao.mapper.MemberMapper;
 import com.myideaway.server.framework.dao.mapper.StoreMoneyLogMapper;
 import com.myideaway.server.framework.entities.MemberInfo;
@@ -22,6 +23,9 @@ public class MemberService {
 	
 	@Autowired
 	private StoreMoneyLogMapper storeMoneyLogMapper;
+	
+	@Autowired
+	private MemberCheckLogMapper memberCheckLogMapper;
 	
 	public void add(MemberInfo member){
 		memberMapper.addMemberInfo(member);
@@ -96,6 +100,7 @@ public class MemberService {
 	public boolean check(long id){
 		try {
 			memberMapper.checkMember(id);
+			memberCheckLogMapper.insertlog(id);
 		} catch (Exception e) {
 			return false;
 		}
@@ -140,8 +145,17 @@ public class MemberService {
 		param.put("onePageCount", page.getOnePageCount());
 		return storeMoneyLogMapper.logList(param);
 	}
-	
+
 	public void changeTypeToActive(Long id){
 		memberMapper.changeTypeToActive(id);
+	}
+	
+	public List<HashMap<String, Object>> checkLogList(HashMap<String, Object> param,Page page){
+		page.setCount(memberCheckLogMapper.logListCount());
+		PageUtil.makePage(page);
+		
+		param.put("start", page.getStart());
+		param.put("onePageCount", page.getOnePageCount());
+		return memberCheckLogMapper.logList(param);
 	}
 }
