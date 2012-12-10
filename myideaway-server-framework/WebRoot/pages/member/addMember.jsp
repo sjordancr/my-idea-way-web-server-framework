@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="p5" style="width:98%">
 <form id="validateForm" method="post" action="../member/add.action">
-<table class="t1d">
+<table width="100%" cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
 	<tr class="a1">
 		<td>推荐人</td>
 		<input type="hidden" id="referrerId" name="referrerId">
@@ -116,8 +117,12 @@
 		<td><input id="remot_peple" name="remot_peple"></td>
 	</tr>
 </table>
-<input type="button" id="addinfo" value="提交"/>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 3px;">
+<tr><td><input type="button" id="addinfo" value="提交"/></td></tr>
+</table>
+
 </form>
+</div>
 </body>
 <script type="text/javascript" >
 var unique;

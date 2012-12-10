@@ -8,8 +8,9 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/canReferrer.action" method="post">
-<table width="89%">
+<form id="myform" action="../member/canReferrer.action" method="post" target="_top">
+
+<table width="89%" cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
 	<tr >
 		<td>金额</td>
 		<td>时间</td>
@@ -26,24 +27,8 @@
 	</c:forEach>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
-<div id="pager"></div>
+<jsp:include page="../common/page.jsp"></jsp:include>
 </form>
 </div>
 </body>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#pager").pager({pagenumber: ${page.currentPage}, pagecount:${page.pageNum}, buttonClickCallback: PageClick });
-});
-PageClick = function(pageclickednumber) {
-	$("#currentPage").val(pageclickednumber);
-    $("#myform").submit();
-}
-function selectId(id,a){
-	var r = {};
-	r.id = id;
-	r.name = a.textContent;
-	window.returnValue = r;
-	window.close();
-}
-</script>
 </html>

@@ -9,12 +9,13 @@ request.setAttribute("pepleType", request.getSession().getAttribute("pepleType")
 <jsp:include page="../common/base.jsp"></jsp:include>
 </head>
 <body>
-<div>
+<div class="p5" style="width:98%">
 <form id="myform" action="../member/list.action" method="post">
-<table >
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 3px;">
 <tr><td><a href="addPage.action">新增</a></td></tr>
 </table>
-<table width="89%">
+<table width="100%" cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
+	<tbody>
 	<tr>
 		<td>会员姓名</td>
 		<td>会员登录名</td>
@@ -35,23 +36,16 @@ request.setAttribute("pepleType", request.getSession().getAttribute("pepleType")
 		<c:if test="${pepleType==1&&mem.is_active!=1}"><td><a href="#" onclick="doChangeType(${mem.id});" id ="active_link">激活</a></td></c:if>
 	</tr>
 	</c:forEach>
+	</tbody>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
+<jsp:include page="../common/page.jsp"></jsp:include>
 </form>
-
-<div id="pager"></div>
 </div>
-</body>
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#pager").pager({pagenumber: ${page.currentPage}, pagecount:${page.pageNum}, buttonClickCallback: PageClick });
-});
-PageClick = function(pageclickednumber) {
-	$("#currentPage").val(pageclickednumber);
-    $("#myform").submit();
-}
 function doChangeType(id){
 	DwrService.chanageIsActive(id,function(data){if(data){alert("激活成功!");$("#active_link").hide();}else{alert("激活失败!");}});
 }
 </script>
+</body>
 </html>
