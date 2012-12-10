@@ -7,7 +7,7 @@
 </head>
 <body>
 <form id="myform" action="../member/canReferrer.action" method="post">
-<table width="89%">
+<table width="89%" cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
 	<tr >
 		<td>商户名称</td>
 		<td>会员登录名</td>
@@ -33,16 +33,7 @@
 	</c:forEach>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
+<jsp:include page="../common/page.jsp"></jsp:include>
 </form>
-<div id="pager"></div>
 </body>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#pager").pager({pagenumber: ${page.currentPage}, pagecount:${page.pageNum}, buttonClickCallback: PageClick });
-});
-PageClick = function(pageclickednumber) {
-	$("#currentPage").val(pageclickednumber);
-    $("#myform").submit();
-}
-</script>
 </html>

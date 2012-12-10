@@ -9,6 +9,8 @@ request.getSession().setAttribute("basePath",basePath);
 <link rel="stylesheet" type="text/css" href="${basePath }css/smoothness/jquery-ui-1.8.24.custom.css">
 <link rel="stylesheet" type="text/css" href="${basePath }css/demo.css">
 <link rel="stylesheet" type="text/css" href="${basePath }css/Pager.css">
+<link rel="stylesheet" type="text/css" href="${basePath }css/default/base.css">
+<link rel="stylesheet" type="text/css" href="${basePath }css/default/Desktop.css">
 <script type="text/javascript" src="${basePath }scripts/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="${basePath }scripts/jquery-ui-1.8.24.custom.min.js"></script>
 <script type="text/javascript" src="${basePath }scripts/js/jquery-1.4.4.min.js"></script>

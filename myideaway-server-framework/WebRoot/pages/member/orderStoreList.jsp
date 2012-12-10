@@ -6,12 +6,12 @@
 <jsp:include page="../common/base.jsp"></jsp:include>
 </head>
 <body>
-<div>
-<form id="myform" action="../member/orderStoreList.action" method="post">
-<table windth="89%">
-	<th >
+<div class="p5" style="width:98%">
+<form id="myform" action="../member/orderStoreList.action" method="post" target="_top">
+<table windth="89%" cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
+	<tr >
 		<td>会员登录名</td>
-	</th>
+	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
 		<td onclick="selectId(${mem.id},this)">${mem.store_name}</td>
@@ -19,24 +19,8 @@
 	</c:forEach>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
-<div id="pager"></div>
+<jsp:include page="../common/page.jsp"></jsp:include>
 </form>
 </div>
 </body>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#pager").pager({pagenumber: ${page.currentPage}, pagecount:${page.pageNum}, buttonClickCallback: PageClick });
-});
-PageClick = function(pageclickednumber) {
-	$("#currentPage").val(pageclickednumber);
-    $("#myform").submit();
-}
-function selectId(id,a){
-	var r = {};
-	r.id = id;
-	r.name = a.textContent;
-	window.returnValue = r;
-	window.close();
-}
-</script>
 </html>

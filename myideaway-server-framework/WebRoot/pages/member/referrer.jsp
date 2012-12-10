@@ -7,22 +7,20 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/canReferrer.action" method="post">
-<table >
-	<th >
+<form id="myform" action="../member/canReferrer.action" method="post" target="_top">
+<table cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
+	<tr >
 		<td>会员登录名</td>
-	</th>
+	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
-		<td onclick="selectId(${mem.id},this)">${mem.login_name}</td>
+		<td onclick="selectId(${mem.id},this)" id="${mem.id}">${mem.login_name}</td>
 	</tr>
 	</c:forEach>
+	<c:if test="${page.count == 0}"><td onclick="selectId(0,this)" id="0">admin</td></c:if>
 </table>
 <input type="hidden" id="currentPage" name="currentPage" value="">
 <div id="pager"></div>
-</form>
-</div>
-</body>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#pager").pager({pagenumber: ${page.currentPage}, pagecount:${page.pageNum}, buttonClickCallback: PageClick });
@@ -31,12 +29,18 @@ PageClick = function(pageclickednumber) {
 	$("#currentPage").val(pageclickednumber);
     $("#myform").submit();
 }
+</script>
+</form>
+</div>
+<script type="text/javascript">
 function selectId(id,a){
 	var r = {};
 	r.id = id;
-	r.name = a.textContent;
+	r.name = $("#"+id+"").text();
 	window.returnValue = r;
 	window.close();
 }
 </script>
+</body>
+
 </html>
