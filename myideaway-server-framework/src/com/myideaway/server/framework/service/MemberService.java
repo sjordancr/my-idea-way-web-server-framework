@@ -30,6 +30,8 @@ public class MemberService {
 	public void add(MemberInfo member){
 		memberMapper.addMemberInfo(member);
 		
+		
+		
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("id", member.getId());
 		param.put("pid", member.getReferrerId());
