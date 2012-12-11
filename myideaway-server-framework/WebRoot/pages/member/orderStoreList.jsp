@@ -14,7 +14,7 @@
 	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
-		<td onclick="selectId(${mem.id},this)">${mem.store_name}</td>
+		<td onclick="selectId(${mem.id},this)" id="${mem.id}">${mem.store_name}</td>
 	</tr>
 	</c:forEach>
 </table>
@@ -22,5 +22,14 @@
 <jsp:include page="../common/page.jsp"></jsp:include>
 </form>
 </div>
+<script type="text/javascript">
+function selectId(id,a){
+	var r = {};
+	r.id = id;
+	r.name = $("#"+id+"").text();
+	window.returnValue = r;
+	window.close();
+}
+</script>
 </body>
 </html>

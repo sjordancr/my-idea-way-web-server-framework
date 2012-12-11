@@ -30,16 +30,14 @@ public class MemberService {
 	public void add(MemberInfo member){
 		memberMapper.addMemberInfo(member);
 		
-		
-		
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("id", member.getId());
-		param.put("pid", member.getReferrerId());
 		param.put("name", member.getLogin_name());
 		memberMapper.addMemberTree(param);
-		
-		Thread thread = new Thread(new MathOrderStoreMoney(member.getRecive_order_store(), memberMapper, storeMoneyLogMapper));
-		thread.start();
+		if( member.getRecive_order_store() != null){
+			Thread thread = new Thread(new MathOrderStoreMoney(member.getRecive_order_store(), member.getId(), member.getLogin_name(), memberMapper, storeMoneyLogMapper));
+			thread.start();
+		}
 	}
 	
 	public List<HashMap<String, Object>> list(MemberInfo memberInfo,Page page){
@@ -131,10 +129,11 @@ public class MemberService {
 	}
 	
 	public void clearMoney(Long id){
+		MemberInfo memberInfo = memberMapper.selectMemberById(id);
 		memberMapper.clearStoreMoney(id);
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("member_id", id);
-		param.put("money", 0);
+		param.put("money", memberInfo.getOwn_money());
 		param.put("flag", 0);
 		storeMoneyLogMapper.insertlog(param);
 	}

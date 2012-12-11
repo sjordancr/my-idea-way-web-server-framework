@@ -23,7 +23,8 @@ request.setAttribute("pepleType", request.getSession().getAttribute("pepleType")
 		<td>联系电话</td>
 		<td>电子邮件</td>
 		<td>是否商务店</td>
-		<c:if test="${pepleType==1}"><td>操作</td></c:if>
+		<td>商务店名称</td>
+		<td>操作</td>
 	</tr>
 	<c:forEach items="${list}" var="mem">
 	<tr >
@@ -32,8 +33,10 @@ request.setAttribute("pepleType", request.getSession().getAttribute("pepleType")
 		<td>${mem.card_id}</td>
 		<td>${mem.phone}</td>
 		<td>${mem.email}</td>
-		<td>${mem.is_order_store_desc}<c:if test="${ mem.is_order_store == 1}"><a href="#" onclick="window.showModalDialog('../member/logList.action?id=${mem.id}','')">查看流水</a></c:if></td>
-		<c:if test="${pepleType==1&&mem.is_active!=1}"><td><a href="#" onclick="doChangeType(${mem.id});" id ="active_link">激活</a></td></c:if>
+		<td>${mem.is_order_store_desc}</td>
+		<td>${mem.store_name}</td>
+		<td><c:if test="${pepleType==1&&mem.is_active!=1}"><a href="#" onclick="doChangeType(${mem.id});" id ="active_link">激活</a></c:if>
+		<c:if test="${ mem.is_order_store == 1}"><a href="#" onclick="window.showModalDialog('../member/logList.action?id=${mem.id}','')">查看流水</a></c:if></td>
 	</tr>
 	</c:forEach>
 	</tbody>

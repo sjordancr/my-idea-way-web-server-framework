@@ -17,7 +17,7 @@
 	</tr>
 	<tr>
 		<td>接收人</td>
-		<td><input id="receiver" name="receiver"></td>
+		<td><input id="receiver" name="receiver" readonly="readonly"  onclick="selectReciver()"></td>
 	</tr>
 	<tr>
 		<td>接收位置</td>
@@ -178,8 +178,7 @@ $(document).ready(function(){
 	
 	$("#addinfo").click(function(){
 		var success = $("#validateForm").valid();
-		exist("referrer",$("#referrer").val(),'输入的推荐人不存在');
-		if(!unique) return;
+		
 		exist("login_name",$("#login_name").val(),'输入的登陆名已存在');
 		if(!unique) return;
 		exist("card_id",$("#card_id").val(),'银行卡号已存在');
@@ -353,15 +352,26 @@ function areaList(){
 function selectReferrer()
 {
 	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
-	$("#referrerId").val(r.id);
-	$("#referrer").val(r.name);
+	if( typeof(r) != 'undefined'){
+		$("#referrerId").val(r.id);
+		$("#referrer").val(r.name);
+	}
 }
 
 function selectOrderStore()
 {
 	r = window.showModalDialog('../member/orderStoreList.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
-	$("#recive_order_store_").val(r.id);
-	$("#recive_order_store_name").val(r.name);
+	if( typeof(r) != 'undefined'){
+		$("#recive_order_store_").val(r.id);
+		$("#recive_order_store_name").val(r.name);
+	}
+}
+
+function selectReciver(){
+	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
+	if( typeof(r) != 'undefined'){
+		$("#receiver").val(r.name);
+	}
 }
 ESONCalendar.bind("remit_datetime");
 </script>

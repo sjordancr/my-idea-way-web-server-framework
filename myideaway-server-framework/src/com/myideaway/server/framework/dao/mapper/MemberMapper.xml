@@ -20,9 +20,10 @@
 	<select id="selectMemberListCount" resultType="java.lang.Long" parameterType="com.myideaway.server.framework.entities.MemberInfo">
 		select count(1) from t_member
 	</select>
-	<insert id="addMemberTree" parameterType="java.util.HashMap">
-		insert into t_member_tree (id,pid,name,isChecked)
-		values(#{id},#{pid},#{name},0)
+	<insert id="addMemberTree" statementType="CALLABLE">
+		<![CDATA[
+			{call addMemberTree(#{id,mode=IN,jdbcType=BIGINT},#{name,mode=IN,jdbcType=VARCHAR})}
+		]]>
 	</insert>
 	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select m.*
@@ -77,23 +78,13 @@
 	</select>
 	<select id="selectCanReferrer" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		<![CDATA[
-		select m.* from t_member m INNER JOIN (
-				select v1.id,count(1) as own_member from t_member_tree v1 
-				left JOIN t_member_tree v2 on v1.id = v2.pid 
-				where v1.isChecked = 0
-				GROUP BY v1.id HAVING own_member < 2
-			) v on m.id = v.id and m.is_active = 1
+		select m.* from t_member m INNER JOIN t_member_tree v on m.id = v.id and m.is_active = 1 and v.isChecked = 0
 		limit #{onePageCount} offset #{start}
 		]]>
 	</select>
 	<select id="selectCanReferrerCount" resultType="java.lang.Long" parameterType="java.util.HashMap">
 		<![CDATA[
-			select count(1) from (
-				select v1.id,count(1) as own_member from t_member_tree v1 
-				left JOIN t_member_tree v2 on v1.id = v2.pid 
-				where v1.isChecked = 0
-				GROUP BY v1.id HAVING own_member < 2
-			) v inner join t_member m on m.id = v.id and m.is_active = 1
+			select count(1) from t_member m INNER JOIN t_member_tree v on m.id = v.id and m.is_active = 1 and v.isChecked = 0
 		]]>
 	</select>
 	<update id="checkMember" parameterType="java.lang.Long">
