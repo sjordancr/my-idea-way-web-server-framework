@@ -28,6 +28,7 @@ function selectId(id,a){
 	r.id = id;
 	r.name = $("#"+id+"").text();
 	window.returnValue = r;
+	window.opener.returnValue = r;
 	window.close();
 }
 </script>

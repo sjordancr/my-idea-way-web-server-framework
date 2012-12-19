@@ -355,6 +355,9 @@ function selectReferrer()
 	if( typeof(r) != 'undefined'){
 		$("#referrerId").val(r.id);
 		$("#referrer").val(r.name);
+	}else{
+		$("#referrerId").val(window.returnValue.id);
+		$("#referrer").val(window.returnValue.name);
 	}
 }
 
@@ -364,6 +367,9 @@ function selectOrderStore()
 	if( typeof(r) != 'undefined'){
 		$("#recive_order_store_").val(r.id);
 		$("#recive_order_store_name").val(r.name);
+	}else{
+		$("#recive_order_store_").val(window.returnValue.id);
+		$("#recive_order_store_name").val(window.returnValue.name);
 	}
 }
 
@@ -371,6 +377,8 @@ function selectReciver(){
 	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
 	if( typeof(r) != 'undefined'){
 		$("#receiver").val(r.name);
+	}else{
+		$("#receiver").val(window.returnValue.name);
 	}
 }
 ESONCalendar.bind("remit_datetime");
