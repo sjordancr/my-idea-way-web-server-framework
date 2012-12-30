@@ -14,7 +14,7 @@
 </body>
 <script type="text/javascript">
 	$.post(
-		'../../member/structTree.action',
+		'../member/structTree.action',
 		{level:0},
 		function(data){
 			var list = data.list;
@@ -34,7 +34,7 @@
 		for(var i= parseInt(htmllevel)+1;i<= lastLevel;i++){
 			html = html +"<tr level='"+i+"'>"
 			for(var inner = 0;inner< Math.pow(2,i);inner++){
-				html=html+"<td>"+inner+"</td>";
+				html=html+"<td></td>";
 			}
 			
 			html = html+"</tr>";

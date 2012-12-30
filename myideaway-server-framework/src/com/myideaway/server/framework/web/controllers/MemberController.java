@@ -146,6 +146,10 @@ public class MemberController {
 		model.addAttribute("list", memberService.checkLogList(param, page));
 		return "member/memberCheckLogList";
 	}
+	@RequestMapping("/structTreePage")
+	public String structTreePage(){
+		return "member/structTree";
+	}
 	
 	@RequestMapping("/structTree")
 	@ResponseBody
