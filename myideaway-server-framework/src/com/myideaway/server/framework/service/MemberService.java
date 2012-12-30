@@ -159,4 +159,14 @@ public class MemberService {
 		param.put("onePageCount", page.getOnePageCount());
 		return memberCheckLogMapper.logList(param);
 	}
+	
+	public List<HashMap<String, Object>> query5StructTree(Long level){
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("level", level);
+		return memberMapper.query5Levelstruct(param);
+	}
+	
+	public Long queryMaxLevel(){
+		return memberMapper.queryMaxLevel();
+	}
 }

@@ -34,4 +34,6 @@ public interface MemberMapper {
 	public Long selectMoneyStoreListCount();
 	public void clearStoreMoney(Long id);
 	public void changeTypeToActive(Long id);
+	public List<HashMap<String, Object>> query5Levelstruct(HashMap<String, Object> param);
+	public Long queryMaxLevel();
 }

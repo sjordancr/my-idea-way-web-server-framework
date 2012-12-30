@@ -147,4 +147,14 @@ public class MemberController {
 		return "member/memberCheckLogList";
 	}
 	
+	@RequestMapping("/structTree")
+	@ResponseBody
+	public Object query5LevelMemberInfo(@RequestParam Long level){
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("list", memberService.query5StructTree(level));
+		result.put("maxlevel", memberService.queryMaxLevel());
+		return result;
+	}
+	
 }

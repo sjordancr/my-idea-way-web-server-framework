@@ -125,4 +125,15 @@
 	<update id="changeTypeToActive" parameterType="java.lang.Long">
 		update t_member set is_active = 1 where id = #{id}  
 	</update>
+	<select id="query5Levelstruct" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		<![CDATA[
+		select t.id,t.pid,t.nlevel,m.login_name 
+		  from t_member_tree t INNER JOIN t_member m on t.id = m.id
+		 where t.nlevel >= #{level} and t.nlevel < (#{level} + 5)
+		 order by id,pid
+		 ]]>
+	</select>
+	<select id="queryMaxLevel" resultType="java.lang.Long">
+		select max(nlevel) from t_member_tree
+	</select>
 </mapper>

@@ -7,7 +7,7 @@
 </head>
 <body>
 <div>
-<form id="myform" action="../member/canReferrer.action" method="post" target="_top">
+<form id="myform" action="../member/canReferrer.action" method="post" target="abc">
 <table cellpadding="0" cellspacing="0" class="formTable" style="margin:auto;">
 	<tr >
 		<td>会员登录名</td>
@@ -32,6 +32,7 @@ PageClick = function(pageclickednumber) {
 </script>
 </form>
 </div>
+<iframe name="abc"   width="0px"   height="0px"   frameborder="0"    style="display:none"> </iframe>
 <script type="text/javascript">
 function selectId(id,a){
 	var r = {};

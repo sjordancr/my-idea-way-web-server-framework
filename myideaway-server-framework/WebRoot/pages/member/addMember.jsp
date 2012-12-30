@@ -351,7 +351,7 @@ function areaList(){
 
 function selectReferrer()
 {
-	r = window.showModalDialog('../member/canReferrer.action','',"dialogWidth=500px;dialogHeight=400px;center=yes");
+	r = window.showModalDialog('../member/canReferrer.action',window,"dialogWidth=500px;dialogHeight=400px;center=yes");
 	if( typeof(r) != 'undefined'){
 		$("#referrerId").val(r.id);
 		$("#referrer").val(r.name);
