@@ -77,14 +77,9 @@ public class MemberService {
 		return false;
 	}
 	
-	public List<HashMap<String, Object>> statistics(HashMap<String, Object> param,Page page){
-		page.setCount(memberMapper.iNeedMoneyMoneyCount());
-		PageUtil.makePage(page);
+	public HashMap<String, Object> statistics(){
 		
-		param.put("start", page.getStart());
-		param.put("onePageCount", page.getOnePageCount());
-		
-		return memberMapper.iNeedMoneyMoney(param);
+		return memberMapper.iNeedMoneyMoney();
 	}
 	
 	public List<HashMap<String, Object>> selectCanReferrer(HashMap<String, Object> param,Page page){
@@ -100,7 +95,6 @@ public class MemberService {
 	public boolean check(long id){
 		try {
 			memberMapper.checkMember(id);
-			memberCheckLogMapper.insertlog(id);
 		} catch (Exception e) {
 			return false;
 		}

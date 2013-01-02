@@ -19,7 +19,7 @@ public interface MemberMapper {
 	public int checkBankCardCode(String value);
 	public int checkReferrerCanUse(String value);
 	public void addMemberTree(HashMap<String, Object> param);
-	public List<HashMap<String, Object>> iNeedMoneyMoney(HashMap<String, Object> param);
+	public HashMap<String, Object> iNeedMoneyMoney();
 	public Long iNeedMoneyMoneyCount();
 	public List<HashMap<String, Object>> selectCanReferrer(HashMap<String, Object> param);
 	public Long selectCanReferrerCount();

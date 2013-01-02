@@ -22,38 +22,36 @@
 	</select>
 	<insert id="addMemberTree" statementType="CALLABLE">
 		<![CDATA[
-			{call addMemberTree(#{id,mode=IN,jdbcType=BIGINT},#{name,mode=IN,jdbcType=VARCHAR})}
+			{call addMemberTree(#{id,mode=IN,jdbcType=BIGINT})}
 		]]>
 	</insert>
-	<select id="iNeedMoneyMoney" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select m.*
-  from t_member m
- INNER JOIN (select v1.id, count(1) as own_member
-               from t_member_tree v1
-               left JOIN t_member_tree v2
-                 on v1.id = v2.pid
-               LEFT JOIN t_member_tree v3
-                 on v2.id = v3.pid
-               LEFT JOIN t_member_tree v4
-                 on v3.id = v4.pid
-               left JOIN t_member_tree v5
-                 on v4.id = v5.pid
-              where v1.isChecked = 0
-              GROUP BY v1.id
-             HAVING own_member = 16) v
-    on m.id = v.id
-   and m.is_active = 1 limit #{onePageCount} offset #{start}
+	<select id="iNeedMoneyMoney" resultType="java.util.HashMap">
+		SELECT v.id
+		     , count(1) AS own_member
+		FROM
+		  (
+		  SELECT v1.id AS id
+		       , v5.id AS id5
+		  FROM
+		    t_member_tree v1
+		  LEFT JOIN t_member_tree v2
+		  ON v1.id = v2.pid
+		  LEFT JOIN t_member_tree v3
+		  ON v2.id = v3.pid
+		  LEFT JOIN t_member_tree v4
+		  ON v3.id = v4.pid
+		  LEFT JOIN t_member_tree v5
+		  ON v4.id = v5.pid
+		  WHERE
+		    v1.isChecked = 0
+		    AND v5.nlevel = 4) v
+		INNER JOIN t_member m
+		ON v.id5 = m.id AND m.is_active = 1
+		GROUP BY
+		  v.id
+		HAVING
+		  own_member >=16
 
-	</select>
-	<select id="iNeedMoneyMoneyCount" resultType="java.lang.Long">
-		select count(1) from (
-		select v1.id,count(1) as own_member from t_member_tree v1 
-				left JOIN t_member_tree v2 on v1.id = v2.pid 
-				LEFT JOIN t_member_tree v3 on v2.id = v3.pid
-				LEFT JOIN t_member_tree v4 on v3.id = v4.pid
-				left JOIN t_member_tree v5 on v4.id = v5.pid
-				where v1.isChecked = 0
-				GROUP BY v1.id HAVING own_member = 16) v
 	</select>
 	<select id="checkReferrer" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select case count(1) when 1 then 0 else 1 end as num from t_member where login_name = #{referrer}
@@ -88,7 +86,9 @@
 		]]>
 	</select>
 	<update id="checkMember" parameterType="java.lang.Long">
-		update t_member_tree set isChecked = 1 where id = #{id} 
+		<![CDATA[
+			{call memberCheck(#{id,mode=IN,jdbcType=BIGINT})} 
+		]]>
 	</update>
 	<select id="selectStoreList" resultType="java.util.HashMap">
 		SELECT * from t_member where is_order_store = 1 and is_active = 1 limit #{onePageCount} offset #{start}
@@ -129,7 +129,8 @@
 		<![CDATA[
 		select t.id,t.pid,t.nlevel,m.login_name 
 		  from t_member_tree t INNER JOIN t_member m on t.id = m.id
-		 where t.nlevel >= #{level} and t.nlevel < (#{level} + 5)
+		 where t.nlevel >= #{level} and t.nlevel <= (#{level} + 5)
+		   AND m.is_Active = 1
 		 order by id,pid
 		 ]]>
 	</select>

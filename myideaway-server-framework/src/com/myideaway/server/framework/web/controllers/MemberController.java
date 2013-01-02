@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myideaway.server.framework.dao.mapper.StoreMoneyLogMapper;
 import com.myideaway.server.framework.entities.MemberInfo;
-import com.myideaway.server.framework.service.MathOrderStoreMoney;
 import com.myideaway.server.framework.service.MemberService;
 import com.myideaway.server.framework.web.common.Page;
 
@@ -66,14 +64,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/statistics")
-	public String statistics(@ModelAttribute Page page,Model model){
-		if( page == null){
-			page = new Page();
-		}
-		
-		model.addAttribute("page",page);
-		model.addAttribute("list", memberService.statistics(new HashMap<String, Object>(), page));
-		return "member/statisticsMember";
+	@ResponseBody
+	public Object statistics(){
+		HashMap<String,Object> result = new HashMap<String, Object>();
+		result.put("member", memberService.statistics());
+		return result;
 	}
 	
 	@RequestMapping("/canReferrer")
@@ -88,9 +83,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/check")
-	public String check(@RequestParam long id){
-		memberService.check(id);
-		return "redirect:statistics.action";
+	@ResponseBody
+	public Object check(@RequestParam long id){
+		HashMap<String,Object> result = new HashMap<String, Object>();
+		result.put("success",memberService.check(id));
+		return result;
 	}
 	
 	@RequestMapping("/orderStoreList")
