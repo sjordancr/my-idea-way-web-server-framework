@@ -9,23 +9,33 @@
 </head>
 <body>
 <table id="structTree" width="98%">
-	<tr level='0'><td style="text-align:center">公司</td></tr>
+	<tr level='0'><td style="text-align:center" onclick=""></td></tr>
 </table>
 </body>
 <script type="text/javascript">
-	$.post(
-		'../member/structTree.action',
-		{level:0},
-		function(data){
-			var list = data.list;
-			var level = list[0].nlevel;
-			var lastLevel = data.maxlevel;
-			makeCell(lastLevel);
-			
-			fillData(list);
-			
-		}
-	);
+	function loadCell(){
+		$.post(
+				'../member/structTree.action',
+				{level:0},
+				function(data){
+					var list = data.list;
+					var lastLevel = data.maxlevel;
+					makeCell(lastLevel);
+					
+					fillData(list);
+					$.post(
+						'../member/statistics.action',
+						function(data){
+							var memberid = $("tr[level='0'] td").attr("memberid");
+							if(data.member.id == parseInt(memberid)){
+								var cell = $("tr[level='0'] td[memberid='"+memberid+"']");
+								cell.append("<a href='#' onclick='check("+memberid+")'>结算</a>");
+							}
+						}
+					)
+				}
+			);
+	}
 	
 	function makeCell(maxlevel){
 		var lastLevel = maxlevel;
@@ -65,8 +75,24 @@
 				index = 0;
 			}
 			$("tr[level='"+level+"'] td:eq("+index+")").text(temp.login_name);
+			$("tr[level='"+level+"'] td:eq("+index+")").attr("memberid",temp.id);
 			index++;
 		}
+	}
+	
+	$(function(){
+		loadCell();
+	});
+	
+	function check(id){
+		$.post(
+			'../member/check.action',
+			{'id':id},
+			function(data){
+				$("td").text("");
+				loadCell();
+			}
+		);
 	}
 	
 </script>
